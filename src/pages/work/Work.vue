@@ -11,57 +11,79 @@
     </view> -->
     <view v-if="identify == 1" class="title">我的申请</view>
     <view class="content">
-      <view class="rudang">申请入党</view>
-      <view class="active">申请积极分子</view>
-      <view class="dev">申请发展对象</view>
-      <view class="pre">申请预备党员</view>
-      <view class="normal">申请党员转正</view>
+      <view class="content-block rudang">申请入党</view>
+      <view class="content-block active">申请积极分子</view>
+      <view class="content-block dev">申请发展对象</view>
+      <view class="content-block pre">申请预备党员</view>
+      <view class="content-block normal">申请党员转正</view>
     </view>
   </view>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      identify: 1, //学生 2.老师
-    };
-  },
-  onLoad() {},
-  methods: {},
-};
+  export default {
+    data() {
+      return {
+        identify: 1, //学生 2.老师
+      };
+    },
+    onLoad() { },
+    methods: {},
+  };
 </script>
 
 <style scoped>
-.title {
-  font-weight: bold;
-  padding: 10px 0;
-  background: #fff;
-  text-align: center;
-}
-.content {
-  border-top: 10x solid rgb(240, 240, 240);
-  background: #fff;
-}
-.rudang,
-.active,
-.dev,
-.pre,
-.normal {
-  position: relative;
-  text-align: center;
-  border: solid 1px rgb(240, 240, 240);
-}
-.rudang {
-  line-height: 100px;
-  width: 100px;
-  height: 100px;
-}
-.active {
-  width: 100px;
-  height: 180px;
-  line-height: 180px;
-}
-.dev {
-}
+  .title {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 0;
+    background: #fff;
+    text-align: center;
+  }
+
+  .content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-top: 10x solid rgb(240, 240, 240);
+    background: #fff;
+    padding-bottom: 20px;
+  }
+
+  .content-block {
+    font-weight: bold;
+    line-height: 100px;
+
+    height: 80px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 80px;
+    margin: 10px 5px 5px 5px;
+    color: #fff;
+  }
+
+  .rudang {
+    width: 140px;
+    background: rgb(164, 209, 186);
+  }
+
+  .active {
+    width: 140px;
+    background-color: rgb(255, 217, 124);
+  }
+
+  .dev {
+    width: 290px;
+    background-color: rgb(171, 223, 244);
+  }
+
+  .pre {
+    width: 140px;
+    background: rgb(184, 167, 245);
+  }
+
+  .normal {
+    width: 140px;
+    background-color: rgb(255, 92, 103);
+  }
 </style>
