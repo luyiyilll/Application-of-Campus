@@ -1,8 +1,5 @@
 <template>
-  <view
-    class="container"
-    style="background:url('../../static/work_bg.png'); background-size: 100% 100%;"
-  >
+  <view class="container" style="background:url('../../static/work_bg.png'); background-size: 100% 100%;">
     <view v-if="identify == 1" class="content-outer">
       <view class="title">我的申请</view>
       <view class="content">
@@ -26,69 +23,70 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      identify: 1 //学生 2.老师
-    };
-  },
-  onLoad() {},
-  methods: {}
-};
+  export default {
+    data() {
+      return {
+        identify: 1 //学生 2.老师
+      };
+    },
+    onLoad() { },
+    methods: {}
+  };
 </script>
 
 <style scoped>
-.container {
-  min-height: 580px;
-}
+  .container {
+    min-height: 100vh;
+  }
 
-.title {
-  font-size: 18px;
-  font-weight: bold;
-  padding: 100px 0 30px 0;
-  text-align: center;
-}
+  .title {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 100px 0 30px 0;
+    text-align: center;
+  }
 
-.content {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  border-top: 10x solid rgb(240, 240, 240);
-  padding-bottom: 20px;
-}
+  .content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-top: 10x solid rgb(240, 240, 240);
+    padding-bottom: 20px;
+  }
 
-.content-block {
-  font-weight: bold;
-  line-height: 100px;
-  height: 80px;
-  border-radius: 5px;
-  text-align: center;
-  line-height: 80px;
-  margin: 5px 5px 5px 5px;
-  color: #fff;
-  background: rgba(195, 118, 103, 0.6);
-}
-.content-block:active {
-  background: rgb(195, 118, 103);
-}
+  .content-block {
+    font-weight: bold;
+    line-height: 100px;
+    height: 80px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 80px;
+    margin: 5px 5px 5px 5px;
+    color: #fff;
+    background: rgba(195, 118, 103, 0.6);
+  }
 
-.rudang {
-  width: 100px;
-}
+  .content-block:active {
+    background: rgb(195, 118, 103);
+  }
 
-.active {
-  width: 150px;
-}
+  .rudang {
+    width: 100px;
+  }
 
-.dev {
-  width: 260px;
-}
+  .active {
+    width: 150px;
+  }
 
-.pre {
-  width: 150px;
-}
+  .dev {
+    width: 260px;
+  }
 
-.normal {
-  width: 100px;
-}
+  .pre {
+    width: 150px;
+  }
+
+  .normal {
+    width: 100px;
+  }
 </style>
