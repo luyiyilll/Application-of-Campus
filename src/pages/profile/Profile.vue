@@ -1,7 +1,7 @@
 <template>
   <view>
     <!-- style="background:url('../../static/bg.jpg'); background-size: 100% 100%;" -->
-    <view class="banner">
+    <view class="banner" style="background:url('../../static/profile_banner.png'); background-size: 100% 100%;">
       <view>
         <img src="../../static/head.jpg" alt="" class="head-img">
       </view>
@@ -64,10 +64,10 @@
     data() {
       return {
         navList: [
-          { title: '我的收藏', icon: '../../static/work.png' },
-          { title: '发表文章', icon: '../../static/signin.png' },
-          { title: '最近浏览', icon: '../../static/profile.png' },
-          { title: '其他', icon: '../../static/index.png' }
+          { title: '我的收藏', icon: '../../static/colection.png' },
+          { title: '最近浏览', icon: '../../static/records.png' },
+          { title: '发表文章', icon: '../../static/article.png' },
+          { title: '其他', icon: '../../static/other.png' }
 
         ]
       };
@@ -104,7 +104,7 @@
   }
 
   .nav-icon {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
   }
 </style>
