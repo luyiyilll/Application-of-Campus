@@ -26,6 +26,10 @@
         <input name="name" disabled> 卢漪</input>
       </view>
       <view class="cu-form-group">
+        <view class="title">出生日期</view>
+        <input name="ID" disabled>2020-11-27</input>
+      </view>
+      <view class="cu-form-group">
         <view class="title">性别</view>
         <input name="sex" disabled>女</input>
       </view>

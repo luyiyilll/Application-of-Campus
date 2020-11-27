@@ -3,7 +3,11 @@
     <view v-if="identify == 1" class="content-outer">
       <view class="title">我的申请</view>
       <view class="content">
-        <view class="content-block rudang">申请入党</view>
+        <view class="content-block rudang" @click="navigate">
+          
+             申请入党
+          
+        </view>
         <view class="content-block active">申请积极分子</view>
         <view class="content-block dev">申请发展对象</view>
         <view class="content-block pre">申请预备党员</view>
@@ -30,7 +34,14 @@
       };
     },
     onLoad() { },
-    methods: {}
+    methods: {
+      navigate(){
+        console.log("app")
+        uni.navigateTo({
+            url: '/pages/work/student/apply'
+        });
+      }
+    }
   };
 </script>
 
