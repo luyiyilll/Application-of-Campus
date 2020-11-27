@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import App from './App'
-
 import cuCustom from '../colorui/components/cu-custom.vue'
+import axios from 'axios'
+
 Vue.use(cuCustom)
 
+Vue.prototype.$http = axios.create({
+  baseURL: 'http://localhost:3001/api'
+})
 
 Vue.config.productionTip = false
 
