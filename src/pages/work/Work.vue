@@ -3,15 +3,13 @@
     <view v-if="identify == 1" class="content-outer">
       <view class="title">我的申请</view>
       <view class="content">
-        <view class="content-block rudang" @click="navigate">
-          
-             申请入党
-          
+        <view class="content-block rudang" @click="navigateToApply">
+          申请入党
         </view>
-        <view class="content-block active">申请积极分子</view>
-        <view class="content-block dev">申请发展对象</view>
-        <view class="content-block pre">申请预备党员</view>
-        <view class="content-block normal">申请党员转正</view>
+        <view class="content-block active" @click="navigateToAct">申请积极分子</view>
+        <view class="content-block dev" @click="navigateToDev">申请发展对象</view>
+        <view class="content-block pre" @click="navigateToPre">申请预备党员</view>
+        <view class="content-block normal" @click="navigateToNormal">申请党员转正</view>
       </view>
     </view>
     <!-- 加载动画 -->
@@ -35,11 +33,30 @@
     },
     onLoad() { },
     methods: {
-      navigate(){
-        console.log("app")
+      navigateToApply() {
         uni.navigateTo({
-            url: '/pages/work/student/apply'
+          url: '/pages/work/student/apply'
         });
+      },
+      navigateToAct() {
+        uni.navigateTo({
+          url: '/pages/work/student/active'
+        });
+      },
+      navigateToDev() {
+        uni.navigateTo({
+          url: '/pages/work/student/dev'
+        })
+      },
+      navigateToPre() {
+        uni.navigateTo({
+          url: '/pages/work/student/pre'
+        })
+      },
+      navigateToNormal() {
+        uni.navigateTo({
+          url: '/pages/work/student/normal'
+        })
       }
     }
   };
