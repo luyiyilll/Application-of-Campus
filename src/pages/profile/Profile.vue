@@ -12,7 +12,7 @@
     </view>
     <view class="nav-tab">
       <view class="cu-list grid col-4 no-border">
-        <view class="cu-item" v-for="(item,index) in navList" :key="index">
+        <view class="cu-item" v-for="(item,index) in navList" :key="index" @click="navigateTo(index)">
           <view>
             <img :src="item.icon" alt="" class="nav-icon">
           </view>
@@ -23,40 +23,40 @@
     <view class="form">
       <view class="cu-form-group margin-top">
         <view class="title">姓名</view>
-        <input name="name" disabled> 卢漪</input>
+        <input name="name" class="text-right" value="卢漪" disabled/>
       </view>
       <view class="cu-form-group">
         <view class="title">出生日期</view>
-        <input name="ID" disabled>2020-11-27</input>
+        <input name="ID" class="text-right" value="2020-11-27" disabled/>
       </view>
       <view class="cu-form-group">
         <view class="title">性别</view>
-        <input name="sex" disabled>女</input>
+        <input name="sex" class="text-right" value="女" disabled/>
       </view>
       <view class="cu-form-group">
         <view class="title">身份证号码</view>
-        <input name="ID" disabled>500225199801124722</input>
+        <input name="ID" class="text-right" value="500225199801124722" disabled/>
       </view>
       <view class="cu-form-group">
         <view class="title">手机号码</view>
-        <input name="tel" disabled>15923257515</input>
+        <input name="tel" class="text-right" value="15923257515" disabled/>
       </view>
       <view class="cu-form-group">
         <view class="title">年级</view>
-        <input name="grade" disabled>2017</input>
+        <input name="grade" class="text-right" value="2017" disabled/>
         <!-- <text class='cuIcon-locationfill text-orange'></text> -->
       </view>
       <view class="cu-form-group">
         <view class="title">学院</view>
-        <input name="acdemic" disabled>计算机与信息科学学院</input>
+        <input name="acdemic" class="text-right" value="计算机与信息科学学院" disabled/>
       </view>
       <view class="cu-form-group">
         <view class="title">专业</view>
-        <input name="major" disabled>计算机科学与技术</input>
+        <input name="major" class="text-right" value="计算机科学与技术" disabled/>
       </view>
       <view class="cu-form-group">
         <view class="title">所属支部</view>
-        <input name="major" disabled>计信一支部</input>
+        <input name="major" class="text-right" value="计算机科学与技术" disabled/>
       </view>
     </view>
   </view>
@@ -68,16 +68,29 @@
     data() {
       return {
         navList: [
+          { title: '我的申请', icon: '../../static/other.png' },
           { title: '我的收藏', icon: '../../static/colection.png' },
-          { title: '最近浏览', icon: '../../static/records.png' },
           { title: '发表文章', icon: '../../static/article.png' },
-          { title: '其他', icon: '../../static/other.png' }
-
+          { title: '最近浏览', icon: '../../static/records.png' },
         ]
       };
     },
     onLoad() { },
-    methods: {},
+    methods: {
+      navigateTo(index){
+        if(index==0){
+           uni.navigateTo({
+            url: '/pages/work/student/apply'
+          });
+        }else if(index==1){
+
+        }else if(index==2){
+
+        }else{
+
+        }
+      }
+    },
   };
 </script>
 

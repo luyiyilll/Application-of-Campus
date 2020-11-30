@@ -1,12 +1,6 @@
 {
   "pages": [
     {
-      "path": "pages/index/index",
-      "style": {
-        "navigationBarTitleText": "校园党建平台"
-      }
-    },
-    {
       "path": "pages/profile/profile",
       "style": {
         "navigationBarTitleText": "我的"
@@ -16,6 +10,18 @@
       "path": "pages/work/work",
       "style": {
         "navigationBarTitleText": "工作"
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "登录"
+      }
+    },
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "校园党建平台"
       }
     },
     {
@@ -61,36 +67,5 @@
     "navigationBarBackgroundColor": "#fff",
     "backgroundColor": "#F8F8F8"
   },
-  "tabBar": {
-    "color": "#C0C4CC",
-    "selectedColor": "#000",
-    "borderStyle": "black",
-    "backgroundColor": "#ffffff",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "iconPath": "static/un-index.png",
-        "selectedIconPath": "static/index.png",
-        "text": "首页"
-      },
-      {
-        "pagePath": "pages/signin/signin",
-        "iconPath": "static/un-signin.png",
-        "selectedIconPath": "static/signin.png",
-        "text": "签到"
-      },
-      {
-        "pagePath": "pages/work/work",
-        "iconPath": "static/un-work.png",
-        "selectedIconPath": "static/work.png",
-        "text": "工作"
-      },
-      {
-        "pagePath": "pages/profile/profile",
-        "iconPath": "static/un-profile.png",
-        "selectedIconPath": "static/profile.png",
-        "text": "我的"
-      }
-    ]
-  }
+
 }
