@@ -1,5 +1,5 @@
 <template>
-  <view class="container" style="background:url('../../static/work_bg.png'); background-size: 100% 100%;">
+  <view class="container-work" style="background:url('../../static/work_bg.png'); background-size: 100% 100%;">
     <view v-if="identify == 1" class="content-outer">
       <view class="title">我的申请</view>
       <view class="content">
@@ -21,15 +21,22 @@
         style="height: 240upx"
       ></image>
     </view>-->
+    <tab-bar></tab-bar>
   </view>
+  
+
 </template>
 
 <script>
+  import TabBar from '../../components/TabBar.vue';
   export default {
     data() {
       return {
         identify: 1 //学生 2.老师
       };
+    },
+    components:{
+      TabBar
     },
     onLoad() { },
     methods: {
@@ -63,14 +70,14 @@
 </script>
 
 <style scoped>
-  .container {
+  .container-work {
     min-height: 100vh;
   }
 
   .title {
     font-size: 18px;
     font-weight: bold;
-    padding: 100px 0 30px 0;
+    padding: 70px 0 30px 0;
     text-align: center;
   }
 

@@ -17,4 +17,5 @@ export default {
 @import "../colorui/main.css";
 @import "../colorui/icon.css";
 @import "../colorui/animation.css";
+
 </style>

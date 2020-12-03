@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="container">
     <!-- style="background:url('../../static/bg.jpg'); background-size: 100% 100%;" -->
     <view class="banner" style="background:url('../../static/profile_banner.png'); background-size: 100% 100%;">
       <view>
@@ -59,11 +59,13 @@
         <input name="major" class="text-right" value="计算机科学与技术" disabled/>
       </view>
     </view>
+    <view class="divider"></view>
+    <tab-bar></tab-bar>
   </view>
 </template>
 
 <script>
-
+  import TabBar from '../../components/TabBar.vue';
   export default {
     data() {
       return {
@@ -76,6 +78,9 @@
       };
     },
     onLoad() { },
+    components:{
+      TabBar
+    },
     methods: {
       navigateTo(index){
         if(index==0){
@@ -123,5 +128,9 @@
   .nav-icon {
     width: 25px;
     height: 25px;
+  }
+  .divider{
+    height:60px;
+    width:100%；
   }
 </style>

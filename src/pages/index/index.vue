@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="container">
     <swiper
       class="screen-swiper square-dot"
       :indicator-dots="true"
@@ -37,47 +37,17 @@
         </view>
       </view>
     </view>
-    <view class="cu-bar tabbar bg-white footer">
-      
-			<view class="action" @click="NavChange" data-cur="basics">
-				<view class='cuIcon-cu-image'>
-					<image :src="'/static/tabbar/basics' + [PageCur=='basics'?'_cur':''] + '.png'"></image>
-				</view>
-				<view :class="PageCur=='basics'?'text-green':'text-gray'">首页</view>
-			</view>
-			<view class="action" @click="NavChange" data-cur="component">
-				<view class='cuIcon-cu-image'>
-					<image :src="'/static/tabbar/component' + [PageCur == 'component'?'_cur':''] + '.png'"></image>
-				</view>
-				<view :class="PageCur=='component'?'text-green':'text-gray'">签到</view>
-			</view>
-      
-      <view class="action text-gray add-action">
-        <button class="cu-btn cuIcon-add bg-green shadow"></button>
-        发布
-      </view>
+    <tab-bar></tab-bar>
 
-			<view class="action" @click="NavChange" data-cur="plugin">
-				<view class='cuIcon-cu-image'>
-					<image :src="'/static/tabbar/plugin' + [PageCur == 'plugin'?'_cur':''] + '.png'"></image>
-				</view>
-				<view :class="PageCur=='plugin'?'text-green':'text-gray'">工作</view>
-			</view>
-
-      <view class="action text-gray">
-        <view class="cuIcon-my">
-          <view class="cu-tag badge"></view>
-        </view>
-        我的
-      </view>
-    </view>
   </view>
 </template>
 
 <script>
+import TabBar from '../../components/TabBar.vue';
 export default {
   data() {
     return {
+      TabCur: 0,
       swiperList: [
         {
           id: 0,
@@ -94,13 +64,8 @@ export default {
           url:
             "https://ossweb-img.qq.com/images/lol/web201310/skin/big39000.jpg"
         },
-        {
-          id: 3,
-          url:
-            "https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg"
-        }
       ],
-      TabCur: 0,
+
       navList: [
         { title: "通知", icon: "" },
         { title: "会议", icon: "" },
@@ -140,9 +105,12 @@ export default {
       ]
     };
   },
-  components: {},
+  components: {
+    TabBar
+  },
   onLoad() {},
   methods: {
+
     tabSelect(e) {
       this.TabCur = e.currentTarget.dataset.id;
       if (this.TabCur == 0) {
@@ -253,9 +221,5 @@ export default {
   padding-left: 10px;
   width: 70%;
 }
-.footer{
-  width:100%;
-  position:fixed;
-  bottom:0;
-}
+
 </style>
