@@ -37,6 +37,40 @@
         </view>
       </view>
     </view>
+    <view class="cu-bar tabbar bg-white footer">
+      
+			<view class="action" @click="NavChange" data-cur="basics">
+				<view class='cuIcon-cu-image'>
+					<image :src="'/static/tabbar/basics' + [PageCur=='basics'?'_cur':''] + '.png'"></image>
+				</view>
+				<view :class="PageCur=='basics'?'text-green':'text-gray'">首页</view>
+			</view>
+			<view class="action" @click="NavChange" data-cur="component">
+				<view class='cuIcon-cu-image'>
+					<image :src="'/static/tabbar/component' + [PageCur == 'component'?'_cur':''] + '.png'"></image>
+				</view>
+				<view :class="PageCur=='component'?'text-green':'text-gray'">签到</view>
+			</view>
+      
+      <view class="action text-gray add-action">
+        <button class="cu-btn cuIcon-add bg-green shadow"></button>
+        发布
+      </view>
+
+			<view class="action" @click="NavChange" data-cur="plugin">
+				<view class='cuIcon-cu-image'>
+					<image :src="'/static/tabbar/plugin' + [PageCur == 'plugin'?'_cur':''] + '.png'"></image>
+				</view>
+				<view :class="PageCur=='plugin'?'text-green':'text-gray'">工作</view>
+			</view>
+
+      <view class="action text-gray">
+        <view class="cuIcon-my">
+          <view class="cu-tag badge"></view>
+        </view>
+        我的
+      </view>
+    </view>
   </view>
 </template>
 
@@ -218,5 +252,10 @@ export default {
 .content-des {
   padding-left: 10px;
   width: 70%;
+}
+.footer{
+  width:100%;
+  position:fixed;
+  bottom:0;
 }
 </style>
