@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 const mysqlConfig = require('../sql/dbconfig');
-const userSql = require('../slq/user.js')
-import { jsonWrite } from '../err'
+const userSql = require('../sql/user.js')
+const jsonWrite =require('../err').jsonWrite
 
 let conn = mysql.createConnection({ mysqlConfig });
 conn.connect();

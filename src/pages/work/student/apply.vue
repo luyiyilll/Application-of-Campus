@@ -1,6 +1,6 @@
 <template>
-  <view>
-      <view class="info-title margin-top">填写基本信息</view>
+  <view class="border-top">
+      <view class="info-title padding">填写基本信息</view>
       <view class="cu-form-group ">
 				<view class="title">姓名</view>
 				<input class="text-right" placeholder="请输入真实姓名" v-model="info.name"/>
@@ -66,7 +66,8 @@
           </view>
         </picker>
 			</view>
-      <view class="info-title margin-top">上传入党申请书</view>
+      
+      <view class="info-title ">入党申请书材料</view>
       <view class="cu-form-group">
         <view class="grid margin-top-sm col-4 grid-square flex-sub">
           <view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
@@ -79,6 +80,54 @@
             <text class='cuIcon-cameraadd'></text>
           </view>
         </view>
+      </view>
+
+      <view class="info-title ">家庭成员及主要社会关系</view>
+      <view class="cu-form-group">
+        <view class="grid margin-top-sm col-4 grid-square flex-sub">
+          <view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
+          <image :src="imgList[index]" mode="aspectFill"></image>
+            <view class="cu-tag bg-red" @tap.stop="DelImg" :data-index="index">
+              <text class='cuIcon-close'></text>
+            </view>
+          </view>
+          <view class="solids" @tap="ChooseImage" v-if="imgList.length<4">
+            <text class='cuIcon-cameraadd'></text>
+          </view>
+        </view>
+      </view>
+
+      <view class="info-title ">个人履历材料</view>
+      <view class="cu-form-group">
+        <view class="grid margin-top-sm col-4 grid-square flex-sub">
+          <view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
+          <image :src="imgList[index]" mode="aspectFill"></image>
+            <view class="cu-tag bg-red" @tap.stop="DelImg" :data-index="index">
+              <text class='cuIcon-close'></text>
+            </view>
+          </view>
+          <view class="solids" @tap="ChooseImage" v-if="imgList.length<4">
+            <text class='cuIcon-cameraadd'></text>
+          </view>
+        </view>
+      </view>
+      
+      <view class="info-title ">个人自传材料</view>
+      <view class="cu-form-group">
+        <view class="grid margin-top-sm col-4 grid-square flex-sub">
+          <view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
+          <image :src="imgList[index]" mode="aspectFill"></image>
+            <view class="cu-tag bg-red" @tap.stop="DelImg" :data-index="index">
+              <text class='cuIcon-close'></text>
+            </view>
+          </view>
+          <view class="solids" @tap="ChooseImage" v-if="imgList.length<4">
+            <text class='cuIcon-cameraadd'></text>
+          </view>
+        </view>
+      </view>
+      <view class="btn-box padding-bottom-sm padding-top-sm">
+        <button class="cu-btn shadow-blur lg">保存</button>
       </view>
   </view>
 </template>
@@ -209,6 +258,11 @@ export default {
   radio{
     margin:0 3px;
   }
+  .padding{
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+
   .info-title{
     padding:10px 0px 10px 15px;;
     font-weight: bold;
@@ -216,5 +270,15 @@ export default {
     background: #fff;
     border-top:1px solid rgb(240, 240, 240);
     border-bottom:1px solid rgb(240, 240, 240);
+  }
+  .btn-box{
+    background:#fff;
+    display:flex;
+    justify-content:center;
+  }
+  .cu-btn{
+    width:90%;
+    background:rgb(197, 132, 126);
+    color:#fff;
   }
 </style>

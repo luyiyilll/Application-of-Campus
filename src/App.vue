@@ -18,4 +18,6 @@ export default {
 @import "../colorui/icon.css";
 @import "../colorui/animation.css";
 
+@import "./static/css/global.css";
+
 </style>

@@ -1,6 +1,12 @@
 {
   "pages": [
     {
+      "path": "pages/work/student/active",
+      "style": {
+        "navigationBarTitleText": "入党积极分子申请"
+      }
+    },
+    {
       "path": "pages/work/student/apply",
       "style": {
         "navigationBarTitleText": "入党申请"
@@ -38,12 +44,7 @@
       }
     },
    
-    {
-      "path": "pages/work/student/active",
-      "style": {
-        "navigationBarTitleText": "入党积极分子申请"
-      }
-    },
+
     {
       "path": "pages/work/student/dev",
       "style": {
