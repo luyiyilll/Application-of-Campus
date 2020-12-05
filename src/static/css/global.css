@@ -1,3 +1,18 @@
-.border-top{
-  border-top:1px solid rgb(240, 240, 240);
+.container {
+  background: #fff;
+  min-height: 100vh;
+}
+
+
+.border-top {
+  border-top: 1px solid rgb(240, 240, 240);
+}
+
+.info-title {
+  padding: 10px 0px 10px 15px;
+  font-weight: bold;
+  font-size: 16px;
+  background: #fff;
+  border-top: 1px solid rgb(240, 240, 240);
+  border-bottom: 1px solid rgb(240, 240, 240);
 }

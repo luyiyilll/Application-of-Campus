@@ -1,6 +1,24 @@
 {
   "pages": [
     {
+      "path": "pages/work/student/normal",
+      "style": {
+        "navigationBarTitleText": "党员转正申请"
+      }
+    },
+    {
+      "path": "pages/work/student/pre",
+      "style": {
+        "navigationBarTitleText": "预备党员申请"
+      }
+    },
+    {
+      "path": "pages/work/student/dev",
+      "style": {
+        "navigationBarTitleText": "发展对象申请"
+      }
+    },
+    {
       "path": "pages/work/student/active",
       "style": {
         "navigationBarTitleText": "入党积极分子申请"
@@ -36,31 +54,10 @@
         "navigationBarTitleText": "登录"
       }
     },
-
     {
       "path": "pages/signin/signin",
       "style": {
         "navigationBarTitleText": "签到"
-      }
-    },
-   
-
-    {
-      "path": "pages/work/student/dev",
-      "style": {
-        "navigationBarTitleText": "发展对象申请"
-      }
-    },
-    {
-      "path": "pages/work/student/pre",
-      "style": {
-        "navigationBarTitleText": "预备党员申请"
-      }
-    },
-    {
-      "path": "pages/work/student/normal",
-      "style": {
-        "navigationBarTitleText": "党员转正申请"
       }
     }
   ],
@@ -70,5 +67,4 @@
     "navigationBarBackgroundColor": "#fff",
     "backgroundColor": "#F8F8F8"
   }
-
 }
