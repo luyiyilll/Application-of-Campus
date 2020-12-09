@@ -1,5 +1,5 @@
 <template>
-  <view class="container" >
+  <view class="container">
     <view v-if="identify == 1" class="border-top">
       <view class="title">我的申请</view>
       <view class="content">
@@ -23,7 +23,7 @@
     </view>-->
     <tab-bar></tab-bar>
   </view>
-  
+
 
 </template>
 
@@ -35,7 +35,7 @@
         identify: 1 //学生 2.老师
       };
     },
-    components:{
+    components: {
       TabBar
     },
     onLoad() { },
@@ -106,22 +106,22 @@
   }
 
   .rudang {
-    width: 100px;
+    width: 40%;
   }
 
   .active {
-    width: 150px;
+    width: 50%;
   }
 
   .dev {
-    width: 260px;
+    width: 92%;
   }
 
   .pre {
-    width: 150px;
+    width: 55%;
   }
 
   .normal {
-    width: 100px;
+    width: 35%;
   }
 </style>

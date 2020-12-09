@@ -33,7 +33,7 @@
       return {
         navList: [
           { title: '个人信息', icon: '../../static/article.png' },
-          { title: '我的申请', icon: '../../static/other.png' },
+          { title: '我的申请', icon: '../../static/apply.png' },
           { title: '我的收藏', icon: '../../static/colection.png' },
           { title: '最近浏览', icon: '../../static/records.png' },
         ]
@@ -49,20 +49,20 @@
           uni.navigateTo({
             url: '/pages/profile/info/info'
           });
-         
+
         } else if (index == 1) {
-           uni.navigateTo({
+          uni.navigateTo({
             url: '/pages/profile/myapply/myapply'
           });
-         
+
         } else if (index == 2) {
-           uni.navigateTo({
+          uni.navigateTo({
             url: '/pages/profile/collection/collection'
           });
         } else {
-            uni.navigateTo({
-              url: '/pages/profile/records/records'
-            });
+          uni.navigateTo({
+            url: '/pages/profile/records/records'
+          });
         }
       }
     },

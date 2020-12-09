@@ -4,10 +4,10 @@
 }
 
 .border-top {
-  border-top: 1px solid rgb(200, 200, 200);
+  border-top: 1px solid rgb(240, 240, 240);
 }
 
-.border-bottom{
+.border-bottom {
   border-bottom: 1px solid rgb(240, 240, 240);
 }
 
@@ -20,6 +20,10 @@
   border-bottom: 1px solid rgb(240, 240, 240);
 }
 
-.bold{
-  font-weight:bold;
+.bold {
+  font-weight: bold;
+}
+
+.margin-right {
+  margin-right: 10px;
 }
