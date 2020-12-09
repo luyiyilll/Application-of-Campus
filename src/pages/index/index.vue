@@ -101,6 +101,12 @@ export default {
           publishtime: "2020-11-25",
           description: "在10501展开第一次会议，具体内容为入党申请的通知...",
           views: 34
+        },
+         {
+          title: "第五次通知",
+          publishtime: "2020-11-25",
+          description: "在10501展开第一次会议，具体内容为入党申请的通知...",
+          views: 34
         }
       ]
     };
@@ -192,6 +198,7 @@ export default {
 .content-list {
   border-top: 1px solid rgb(240, 240, 240);
   background: #fff;
+  margin-bottom:60px;
 }
 .content-item {
   border-bottom: 1px solid rgb(240, 240, 240);
@@ -199,27 +206,28 @@ export default {
   display: flex;
   justify-content: space-around;
 }
-
 .content-text {
   display: flex;
   flex-direction: column;
   align-self: start;
+  margin:5px;
+   text-overflow: ellipsis;
+}
+.content-des {
+  margin-top:5px;
+  padding-left: 10px;
+  width: 70%;
 }
 .time {
   display: flex;
   align-items: flex-end;
-}
-.content-text {
-  text-overflow: ellipsis;
 }
 .view-tag {
   display: flex;
   align-items: flex-end;
   line-height: 100%;
 }
-.content-des {
-  padding-left: 10px;
-  width: 70%;
-}
+
+
 
 </style>

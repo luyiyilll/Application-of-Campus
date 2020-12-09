@@ -1,6 +1,6 @@
 <template>
-  <view class="container-work" style="background:url('../../static/work_bg.png'); background-size: 100% 100%;">
-    <view v-if="identify == 1" class="content-outer">
+  <view class="container" >
+    <view v-if="identify == 1" class="border-top">
       <view class="title">我的申请</view>
       <view class="content">
         <view class="content-block rudang" @click="navigateToApply">
@@ -77,7 +77,7 @@
   .title {
     font-size: 18px;
     font-weight: bold;
-    padding: 70px 0 30px 0;
+    padding: 20px 0 30px 0;
     text-align: center;
   }
 
