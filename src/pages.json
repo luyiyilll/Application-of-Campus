@@ -51,7 +51,7 @@
     {
       "path": "pages/profile/profile",
       "style": {
-        "navigationBarTitleText": "我的"
+        "navigationBarTitleText": "个人中心"
       }
     },
     {

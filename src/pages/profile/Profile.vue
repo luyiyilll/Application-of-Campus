@@ -23,40 +23,40 @@
     <view class="form">
       <view class="cu-form-group margin-top">
         <view class="title">姓名</view>
-        <input name="name" class="text-right" value="卢漪" disabled/>
+        <input name="name" class="text-right" value="卢漪" disabled />
       </view>
       <view class="cu-form-group">
         <view class="title">出生日期</view>
-        <input name="ID" class="text-right" value="2020-11-27" disabled/>
+        <input name="ID" class="text-right" value="2020-11-27" disabled />
       </view>
       <view class="cu-form-group">
         <view class="title">性别</view>
-        <input name="sex" class="text-right" value="女" disabled/>
+        <input name="sex" class="text-right" value="女" disabled />
       </view>
       <view class="cu-form-group">
         <view class="title">身份证号码</view>
-        <input name="ID" class="text-right" value="500225199801124722" disabled/>
+        <input name="ID" class="text-right" value="500225199801124722" disabled />
       </view>
       <view class="cu-form-group">
         <view class="title">手机号码</view>
-        <input name="tel" class="text-right" value="15923257515" disabled/>
+        <input name="tel" class="text-right" value="15923257515" disabled />
       </view>
       <view class="cu-form-group">
         <view class="title">年级</view>
-        <input name="grade" class="text-right" value="2017" disabled/>
+        <input name="grade" class="text-right" value="2017" disabled />
         <!-- <text class='cuIcon-locationfill text-orange'></text> -->
       </view>
       <view class="cu-form-group">
         <view class="title">学院</view>
-        <input name="acdemic" class="text-right" value="计算机与信息科学学院" disabled/>
+        <input name="acdemic" class="text-right" value="计算机与信息科学学院" disabled />
       </view>
       <view class="cu-form-group">
         <view class="title">专业</view>
-        <input name="major" class="text-right" value="计算机科学与技术" disabled/>
+        <input name="major" class="text-right" value="计算机科学与技术" disabled />
       </view>
       <view class="cu-form-group">
         <view class="title">所属支部</view>
-        <input name="major" class="text-right" value="计算机科学与技术" disabled/>
+        <input name="major" class="text-right" value="计算机科学与技术" disabled />
       </view>
     </view>
     <view class="divider"></view>
@@ -78,20 +78,20 @@
       };
     },
     onLoad() { },
-    components:{
+    components: {
       TabBar
     },
     methods: {
-      navigateTo(index){
-        if(index==0){
-           uni.navigateTo({
-            url: '/pages/work/student/apply'
+      navigateTo(index) {
+        if (index == 0) {
+          uni.navigateTo({
+            url: '/pages/profile/myapply/myapply'
           });
-        }else if(index==1){
+        } else if (index == 1) {
 
-        }else if(index==2){
+        } else if (index == 2) {
 
-        }else{
+        } else {
 
         }
       }
@@ -129,8 +129,9 @@
     width: 25px;
     height: 25px;
   }
-  .divider{
-    height:60px;
-    width:100%；
+
+  .divider {
+    height: 60px;
+    width: 100%；
   }
 </style>
