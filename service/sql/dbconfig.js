@@ -2,8 +2,9 @@
 module.exports = {
   host: 'localhost',
   user: 'root',
-  password: 'root',
-  database: 'appcampus'
+  password: '',
+  database: 'appcampus',
+  port: 3306
 }
 
 

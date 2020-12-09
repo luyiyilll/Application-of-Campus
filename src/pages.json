@@ -1,15 +1,21 @@
 {
   "pages": [
     {
-      "path": "pages/profile/myapply/myapply",
-      "style": {
-        "navigationBarTitleText": "我的申请"
-      }
-    },
-    {
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "校园党建平台"
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "登录"
+      }
+    },
+    {
+      "path": "pages/profile/myapply/myapply",
+      "style": {
+        "navigationBarTitleText": "我的申请"
       }
     },
     {
@@ -52,12 +58,6 @@
       "path": "pages/work/work",
       "style": {
         "navigationBarTitleText": "工作"
-      }
-    },
-    {
-      "path": "pages/login/login",
-      "style": {
-        "navigationBarTitleText": "登录"
       }
     },
     {

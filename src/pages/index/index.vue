@@ -69,7 +69,7 @@ export default {
       navList: [
         { title: "通知", icon: "" },
         { title: "会议", icon: "" },
-        { title: "公式", icon: "" }
+        { title: "公示", icon: "" }
       ],
       contentList: [
         {

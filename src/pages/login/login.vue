@@ -13,15 +13,15 @@
   </view>
 </template>
 <script>
-import {login,updateUserInfo} from '../../network/student/login'
+import {userLogin,updateUserInfo} from '../../network/student/login'
 export default {
   data() {
     return {
-      isFirstAuth:uni.getStorageSync('isFirstAuth') || true
+     
     }
   },
   onLoad(){
-    this.Login();
+    //this.Login();
   },
   methods: {
     wxGetUserInfo(){
@@ -30,10 +30,15 @@ export default {
         provider:'weixin',
         success:function(infoRes){
           console.log(infoRes)
-          try {
-            uni.setStorageSync('isFirstAuth', false);//记录是否第一次授权  false:表示不是第一次授权
-            _this.updateUserInfo();
-          } catch (e) {}
+          userLogin(infoRes).then(res=>{
+            let userInfo={
+              avatarUrl:infoRes.avatarUrl,
+              gender:infoRes.gender,
+              nick_name:infoRes.nick_name
+            }
+            uni.setStorageSync('user', userInfo);
+            uni.hideLoading();
+          })
         },
         fail(res){}
        
@@ -45,27 +50,24 @@ export default {
       // uni.showLoading({
       //   title:'登录中...'
       // })
-      uni.login({
-        provider: 'weixin',
-        success: function (loginRes) {
-          console.log(loginRes);
-          // let code=loginRes.code;
-          // console.log(loginRes);
-          // if(!_this.isFirstAuth){//不是第一次授权获取用户信息
-          //   uni.getUserInfo({
-          //     provider: 'weixin',
-          //     success: function (infoRes) {
-          //       console.log(infoRes)
-          //       _this.updateUserInfo()
-          //     }
-          //   });
-          // }
-          // login(code).then(res=>{
-          //   uni.hideLoading();
-          // })
-        }
+      // uni.login({
+      //   provider: 'weixin',
+      //   success: function (loginRes) {
+      //     console.log(loginRes);
+      //     let code=loginRes.code;
+      //     if(!_this.isFirstAuth){//不是第一次授权获取用户信息
+      //       uni.getUserInfo({
+      //         provider: 'weixin',
+      //         success: function (infoRes) {
+      //           console.log(infoRes)
+      //           _this.updateUserInfo()
+      //         }
+      //       });
+      //     }
+
+      //   }
        
-      });
+      // });
     },
     updateUserInfo(){
       let _this=this;
@@ -92,8 +94,9 @@ export default {
 }
 .img{
   border-radius: 5px;
-  width:80px;
-  height:80px;
+  width:90px;
+  height:90px;
+  border:3px solid #fff;
 }
 .content-box{
   display:flex;
