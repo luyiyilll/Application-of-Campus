@@ -1,15 +1,21 @@
 {
   "pages": [
     {
-      "path": "pages/work/work",
-      "style": {
-        "navigationBarTitleText": "工作"
-      }
-    },
-    {
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "校园党建平台"
+      }
+    },
+    {
+      "path": "pages/index/content/content",
+      "style": {
+        "navigationBarTitleText": "详情"
+      }
+    },
+    {
+      "path": "pages/work/work",
+      "style": {
+        "navigationBarTitleText": "工作"
       }
     },
     {

@@ -11,7 +11,7 @@
         :key="index" @tap="tabSelect" :data-id="index">{{ item.title }}</view>
     </scroll-view>
     <view class="content-list">
-      <view class="content-item" v-for="(item,index) in contentList" :key="index">
+      <view class="content-item" v-for="(item,index) in contentList" :key="index" @click="enterContent(index)">
         <view class="content-text">
           <view class="bold">{{item.title}}</view>
           <view class="text-cut content-des text-gray text-sm">{{item.description}}</view>
@@ -119,30 +119,35 @@
         if (this.TabCur == 0) {
           this.contentList = [
             {
+              id:0,
               title: "第一次通知",
               publishtime: "2020-11-25",
               description: "在10501展开第一次会议，具体内容为入党体内容为申请的通知...",
               views: 26
             },
             {
+              id:1,
               title: "第二次通知",
               publishtime: "2020-11-25",
               description: "在10501展开第一次会议，具体内容为入体内容为体内容为体内容为党申请的通知...",
               views: 32
             },
             {
+              id:2,
               title: "第三次通知",
               publishtime: "2020-11-25",
               description: "在10501展开第一次会议，具体内容为体内容为体内容为体内容为体内容为入党申请的通知...",
               views: 21
             },
             {
+              id:3,
               title: "第四次通知",
               publishtime: "2020-11-25",
               description: "在10501展开第一次会议，具体内容为入体内容为体内容为体内容为体内容为体内容为体内容为体内容为体内容为v党申请的通知...",
               views: 22
             },
             {
+              id:4,
               title: "第五次通知",
               publishtime: "2020-11-25",
               description: "在10501展开第一次会议，具体内容为入党申请的通知...",
@@ -152,18 +157,21 @@
         } else if (this.TabCur == 1) {
           this.contentList = [
             {
+              id:1,
               title: "第一次会议",
               publishtime: "2020-11-25",
               description: "在10501展开第一次会议，具体内容为入党申请的通知...",
               views: 26
             },
             {
+              id:2,
               title: "第二次会议",
               publishtime: "2020-11-25",
               description: "在10501展开第一次会议，具体内容为入党申请的通知...",
               views: 32
             },
             {
+              id:3,
               title: "第三次会议",
               publishtime: "2020-11-25",
               description: "在10501展开第一次会议，具体内容为入党申请的通知...",
@@ -173,6 +181,7 @@
         } else {
           this.contentList = [
             {
+              id:0,
               title: "入党申请通过名单",
               publishtime: "2020-11-25",
               description: "以下同学的入党申请通过...",
@@ -181,6 +190,12 @@
           ];
         }
         this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60;
+      },
+      enterContent(index){
+        console.log(index)
+        uni.navigateTo({
+          url: '/pages/index/content/content?id='+index+'&type='+this.TabCur
+        });
       }
     }
   };
