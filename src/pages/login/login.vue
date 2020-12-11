@@ -31,12 +31,14 @@ export default {
         success:function(infoRes){
           console.log(infoRes)
           userLogin(infoRes).then(res=>{
+            console.log(res)
             let userInfo={
               avatarUrl:infoRes.avatarUrl,
               gender:infoRes.gender,
               nick_name:infoRes.nick_name
             }
             uni.setStorageSync('user', userInfo);
+            console.log(userInfo)
             uni.hideLoading();
           })
         },

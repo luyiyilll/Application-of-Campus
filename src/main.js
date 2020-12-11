@@ -3,6 +3,7 @@ import App from './App'
 import cuCustom from '../colorui/components/cu-custom.vue'
 import axios from 'axios'
 import store from './store/index'
+import "./network/axios-adapter"
 
 Vue.use(cuCustom)
 

@@ -1,11 +1,32 @@
 const express = require('express')
-const router=require('./router')
+const router = require('./router')
+
+const fs = require('fs')
+const https = require('https')
+
+const bodyParse = require('body-parser')
+const cors = require('cors')
 
 const app = express();
-
+app.use(cors())//解决跨域问题
+app.use(bodyParse.urlencoded({ extended: true }))//解析post参数
+app.use(bodyParse.json())//解析json形式的body，要在路由之前使用
 /*抽离路由*/
-app.get('/', router)
+app.use('/', router)
 
-app.listen(5000, function () {
-  console.log('server 已经启动')
+const privateKey = fs.readFileSync('./https/4904159_www.appcampus.top.key','utf-8')//密钥
+const pem = fs.readFileSync('./https/4904159_www.appcampus.top.pem','utf-8')//证书
+const credential = {
+  key: privateKey,
+  cert: pem
+}
+const httpsServer = https.createServer(credential, app)//创建https服务
+
+
+// app.listen(8083, function () {
+//   console.log('server 已经启动')
+// })
+
+httpsServer.listen(8083, function () {
+  console.log('https服务以及启动')
 })
