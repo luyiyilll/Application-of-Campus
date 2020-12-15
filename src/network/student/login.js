@@ -1,7 +1,6 @@
 import { request } from '../index';
 
-export function userLogin(data) {
-  console.log(data)
+export function login (data) {
   return request({
     url: '/user/login',
     method: 'post',
@@ -9,6 +8,10 @@ export function userLogin(data) {
   })
 }
 
-export function updateUserInfo(data) {
-
+export function getOpenid (data) {
+  return request({
+    url: '/user/openid',
+    method: 'post',
+    data: data
+  })
 }

@@ -14,6 +14,15 @@ app.use(bodyParse.json())//解析json形式的body，要在路由之前使用
 /*抽离路由*/
 app.use('/', router)
 
+
+app.listen(3000, function () {
+  console.log('server 已经启动')
+})
+
+/**
+ *https服务
+ */
+/*
 const privateKey = fs.readFileSync('./https/4904159_www.appcampus.top.key','utf-8')//密钥
 const pem = fs.readFileSync('./https/4904159_www.appcampus.top.pem','utf-8')//证书
 const credential = {
@@ -22,11 +31,7 @@ const credential = {
 }
 const httpsServer = https.createServer(credential, app)//创建https服务
 
-
-// app.listen(8083, function () {
-//   console.log('server 已经启动')
-// })
-
 httpsServer.listen(8083, function () {
   console.log('https服务以及启动')
 })
+*/

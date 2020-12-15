@@ -8,119 +8,130 @@
       <text class="content margin-tb-sm text-gray">获得你的公开信息(昵称，头像等)</text>
     </view>
     <view class="button-box">
-      <button class="cu-btn bg-green lg" open-type="getUserInfo" withCredentials="true" @getuserinfo="wxGetUserInfo"><text class="cuIcon-weixin"></text>微信授权登录</button>
+      <button class="cu-btn bg-green lg" open-type="getUserInfo" withCredentials="true" @getuserinfo="getUserInfo"><text
+          class="cuIcon-weixin"></text>微信授权登录</button>
     </view>
   </view>
 </template>
 <script>
-import {userLogin,updateUserInfo} from '../../network/student/login'
-export default {
-  data() {
-    return {
-     
-    }
-  },
-  onLoad(){
-    //this.Login();
-  },
-  methods: {
-    wxGetUserInfo(){
-      let that=this;
-      uni.getUserInfo({
-        provider:'weixin',
-        success:function(infoRes){
-          console.log(infoRes)
-          userLogin(infoRes).then(res=>{
-            console.log(res)
-            let userInfo={
-              avatarUrl:infoRes.avatarUrl,
-              gender:infoRes.gender,
-              nick_name:infoRes.nick_name
-            }
-            uni.setStorageSync('user', userInfo);
-            console.log(userInfo)
-            uni.hideLoading();
-          })
-        },
-        fail(res){}
-       
-      })
-    },
-    Login(){
-      let _this=this;
-      // console.log(123)
-      // uni.showLoading({
-      //   title:'登录中...'
-      // })
-      // uni.login({
-      //   provider: 'weixin',
-      //   success: function (loginRes) {
-      //     console.log(loginRes);
-      //     let code=loginRes.code;
-      //     if(!_this.isFirstAuth){//不是第一次授权获取用户信息
-      //       uni.getUserInfo({
-      //         provider: 'weixin',
-      //         success: function (infoRes) {
-      //           console.log(infoRes)
-      //           _this.updateUserInfo()
-      //         }
-      //       });
-      //     }
+  import { login, getOpenid } from '../../network/student/login'
+  import { addUser } from '../../network/student/user'
+  export default {
+    data() {
+      return {
 
-      //   }
-       
-      // });
-    },
-    updateUserInfo(){
-      let _this=this;
-      let data={
-        appKey: '',
-        customerId: '',
-        nickName:'',       
       }
-      updateUserInfo(data).then(res=>{
-        console.login(res)
-      })
-    }
-  },
-}
+    },
+    onLoad() {
+      let that = this;
+      wx.getSetting({
+        success: function (res) {
+          if (res.authSetting['scope.userInfo']) {
+            //用户已授权
+            uni.showLoading({
+              title: "登录中..."
+            })
+            uni.setStorageSync('isCanUse', false);//记录是否第一次授权  false:表示不是第一次授权
+            that.userLogin();
+          } else {
+            //用户没有授权
+            that.isCanUse = true;
+          }
+        }
+      });
+
+    },
+    methods: {
+      getUserInfo() {
+        let that = this;
+        uni.login({
+          success: (res) => {
+            if (res.errMsg == 'login:ok') {
+              let code = res.code
+              getOpenid({ code }).then(response => {
+                console.log(response)
+                that.$store.commit('SET_USER_OPENID_KEY', response.data.info.openid, response.data.info.session_key)
+                that.userLogin();
+              })
+            } else {
+              uni.showLoading({
+                title: '系统异常'
+              })
+            }
+          }
+        })
+      },
+      userLogin(data) {
+        let that = this;
+        if (!data) {
+          uni.getUserInfo({
+            provider: 'weixin',
+            success: function (infoRes) {
+              that.$store.commit('SET_USER_INFO', infoRes)
+              that.updateUserInfo(infoRes, that.$store.state.openInfo)
+            }
+          })
+        } else {
+          that.updateUserInfo(data, that.$store.state.openInfo)
+        }
+      },
+      updateUserInfo(info, openInfo) {
+        let data = {
+          openid: openInfo.openid,
+          session_key: openInfo.session_key,
+          nick_name: info.nickName,
+          gender: info.gender == 1 ? '男' : '女',
+          avatar: info.avatarUrl,
+        }
+        addUser(data).then(res => {
+          console.log(res)
+        })
+
+      }
+    },
+  }
 </script>
 <style scoped>
-.container{
-  min-height: 100vh;
-  background:#fff;
-  padding-top: 100px;
-}
-.img-box{
-  justify-content: center;
-}
-.img{
-  border-radius: 5px;
-  width:90px;
-  height:90px;
-  border:3px solid #fff;
-}
-.content-box{
-  display:flex;
-  justify-content:center;
-  flex-direction: column;
-  align-items:center;
-}
+  .container {
+    min-height: 100vh;
+    background: #fff;
+    padding-top: 100px;
+  }
 
-.content{
-  width:70%;
-}
+  .img-box {
+    justify-content: center;
+  }
 
-.button-box,.content-box{
-  width:100%;
-  display:flex;
-  justify-content:center;
-}
+  .img {
+    border-radius: 5px;
+    width: 90px;
+    height: 90px;
+    border: 3px solid #fff;
+  }
 
-.cu-btn{
-  width:80%;
-}
-.margin-tb-lg{
-  margin-bottom:10px;
-}
+  .content-box {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content {
+    width: 70%;
+  }
+
+  .button-box,
+  .content-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cu-btn {
+    width: 80%;
+  }
+
+  .margin-tb-lg {
+    margin-bottom: 10px;
+  }
 </style>

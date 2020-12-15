@@ -1,8 +1,10 @@
 import axios from 'axios'
 
-export function request(config) {
+axios.defaults.withCredentials = true
+
+export function request (config) {
   const instance = axios.create({
-    baseURL: 'https://www.appcampus.top:8083',
+    baseURL: 'http://localhost:3000',
     timeout: 15000
   })
   return instance(config)

@@ -10,9 +10,8 @@ router.get('/', function (req, res) {
   res.end('欢迎进入')
 })
 
-router.use('/user', function (req, res) {
-
-})
+/*用户router*/
+router.use('/user', userRouter)
 
 /*集中异常处理404*/
 router.use((req, res, next) => {
