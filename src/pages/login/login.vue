@@ -22,73 +22,132 @@
 
       }
     },
+
     onLoad() {
       let that = this;
-      wx.getSetting({
-        success: function (res) {
-          if (res.authSetting['scope.userInfo']) {
-            //用户已授权
-            uni.showLoading({
-              title: "登录中..."
+      uni.login({
+        success: (res) => {
+          if (res.errMsg == 'login:ok') {
+            let code = res.code
+            getOpenid({ code }).then(response => {
+              console.log(response)
+              that.$store.commit('SET_USER_OPENID', response.data.openid ? response.data.openid : '')
+              that.$store.commit('SET_USER_INFO', response.data.info ? response.data.info : '')
+              that.getSetting();
             })
-            uni.setStorageSync('isCanUse', false);//记录是否第一次授权  false:表示不是第一次授权
-            that.userLogin();
           } else {
-            //用户没有授权
-            that.isCanUse = true;
+            uni.showLoading({
+              title: '系统异常'
+            })
           }
         }
-      });
-
+      })
     },
     methods: {
+      getSetting() {
+        let that = this;
+        wx.getSetting({
+          success: function (res) {
+            if (res.authSetting['scope.userInfo']) {//用户已授权
+              uni.showLoading({
+                title: "登录中..."
+              })
+              uni.navigateTo({
+                url: '/pages/index/index',
+              });
+            } else {
+              that.getUserInfo();
+            }
+          }
+        });
+      },
       getUserInfo() {
         let that = this;
-        uni.login({
-          success: (res) => {
-            if (res.errMsg == 'login:ok') {
-              let code = res.code
-              getOpenid({ code }).then(response => {
-                console.log(response)
-                that.$store.commit('SET_USER_OPENID_KEY', response.data.info.openid, response.data.info.session_key)
-                that.userLogin();
-              })
-            } else {
-              uni.showLoading({
-                title: '系统异常'
-              })
-            }
+        uni.getUserInfo({
+          provider: 'weixin',
+          success: function (infoRes) {
+            console.log('13', infoRes)
+            that.$store.commit('SET_USER_INFO', infoRes)
+            // let data = {
+            //   openid: openInfo.openid,
+            //   session_key: openInfo.session_key,
+            //   nick_name: info.nickName,
+            //   gender: info.gender == 1 ? '男' : '女',
+            //   avatar: info.avatarUrl,
+            // }
+            // addUser(data).then(res => {
+            //   console.log(res)
+            // })
           }
         })
       },
-      userLogin(data) {
-        let that = this;
-        if (!data) {
-          uni.getUserInfo({
-            provider: 'weixin',
-            success: function (infoRes) {
-              that.$store.commit('SET_USER_INFO', infoRes)
-              that.updateUserInfo(infoRes, that.$store.state.openInfo)
-            }
-          })
-        } else {
-          that.updateUserInfo(data, that.$store.state.openInfo)
-        }
-      },
-      updateUserInfo(info, openInfo) {
-        let data = {
-          openid: openInfo.openid,
-          session_key: openInfo.session_key,
-          nick_name: info.nickName,
-          gender: info.gender == 1 ? '男' : '女',
-          avatar: info.avatarUrl,
-        }
-        addUser(data).then(res => {
-          console.log(res)
-        })
-
-      }
     },
+
+
+
+    // onLoad() {
+    //   let that = this;
+    //   wx.getSetting({
+    //     success: function (res) {
+    //       if (res.authSetting['scope.userInfo']) {
+    //         //用户已授权
+    //         uni.showLoading({
+    //           title: "登录中..."
+    //         })
+    //         uni.setStorageSync('isCanUse', false);//记录是否第一次授权  false:表示不是第一次授权
+    //         that.userLogin();
+    //       } else {
+    //         //用户没有授权
+    //         that.isCanUse = true;
+    //       }
+    //     }
+    //   });
+
+    // },
+    // methods: {
+    //   getUserInfo() {
+    //     let that = this;
+    //     uni.login({
+    //       success: (res) => {
+    //         if (res.errMsg == 'login:ok') {
+    //           let code = res.code
+    //           getOpenid({ code }).then(response => {
+    //             console.log(response)
+    //             that.$store.commit('SET_USER_OPENID_KEY', response.data.info.openid, response.data.info.session_key)
+    //             that.userLogin();
+    //           })
+    //         } else {
+    //           uni.showLoading({
+    //             title: '系统异常'
+    //           })
+    //         }
+    //       }
+    //     })
+    //   },
+    //   userLogin() {
+    //     let that = this;
+    //     uni.getUserInfo({
+    //       provider: 'weixin',
+    //       success: function (infoRes) {
+    //         that.$store.commit('SET_USER_INFO', infoRes)
+    //         that.updateUserInfo(infoRes, that.$store.state.openInfo)
+    //       }
+    //     })
+    //   },
+    //   updateUserInfo(info, openInfo) {
+    //     let data = {
+    //       openid: openInfo.openid,
+    //       session_key: openInfo.session_key,
+    //       nick_name: info.nickName,
+    //       gender: info.gender == 1 ? '男' : '女',
+    //       avatar: info.avatarUrl,
+    //     }
+    //     addUser(data).then(res => {
+    //       console.log(res)
+    //     })
+
+    //   }
+    // },
   }
 </script>
 <style scoped>

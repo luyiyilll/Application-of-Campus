@@ -24,7 +24,6 @@ function querySql (sql) {
     } catch (e) {
       reject(e)
     } finally {
-
       conn.end()
     }
   })

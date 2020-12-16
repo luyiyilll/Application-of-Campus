@@ -6,10 +6,7 @@ const store = new Vuex.Store({
   state: {
     PageCur: 'index',
     userInfo: {},
-    openInfo: {
-      openid: '',
-      session_key: ''
-    }
+    openid: '',
   },
   mutations: {
     changePageCur (state, cur) {
@@ -19,9 +16,8 @@ const store = new Vuex.Store({
     SET_USER_INFO (state, info) {
       state.userInfo = info
     },
-    SET_USER_OPENID_KEY (state, id, key) {
-      state.openInfo.openid = id
-      state.openInfo.session_key = key
+    SET_USER_OPENID (state, id) {
+      state.openid = id
     }
   }
 })
