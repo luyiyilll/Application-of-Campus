@@ -2,40 +2,40 @@
     <view class="form">
       <view class="cu-form-group margin-top-sm">
         <view class="title">姓名</view>
-        <input name="name" class="text-right" value="卢漪" disabled />
+        <input name="name" class="text-right" :value="user.realname?user.realname:'暂无'" disabled />
       </view>
       <view class="cu-form-group">
         <view class="title">出生日期</view>
-        <input name="ID" class="text-right" value="2020-11-27" disabled />
+        <input name="ID" class="text-right" :value="user.birthday?user.birthday:'暂无'" disabled />
       </view>
       <view class="cu-form-group">
         <view class="title">性别</view>
-        <input name="sex" class="text-right" value="女" disabled />
+        <input name="sex" class="text-right" :value="user.gender?user.gender:'暂无'" disabled />
       </view>
       <view class="cu-form-group">
         <view class="title">身份证号码</view>
-        <input name="ID" class="text-right" value="500225199801124722" disabled />
+        <input name="ID" class="text-right" :value="user.IDcode?user.IDcode:'暂无'" disabled />
       </view>
       <view class="cu-form-group">
         <view class="title">手机号码</view>
-        <input name="tel" class="text-right" value="15923257515" disabled />
+        <input name="tel" class="text-right" :value="user.tel?user.tel:'暂无'" disabled />
       </view>
       <view class="cu-form-group">
         <view class="title">年级</view>
-        <input name="grade" class="text-right" value="2017" disabled />
+        <input name="grade" class="text-right" :value="user.grade?user.grade:'暂无'" disabled />
         <!-- <text class='cuIcon-locationfill text-orange'></text> -->
       </view>
       <view class="cu-form-group">
         <view class="title">学院</view>
-        <input name="acdemic" class="text-right" value="计算机与信息科学学院" disabled />
+        <input name="acdemic" class="text-right" :value="user.academic?user.academic:'暂无'" disabled />
       </view>
       <view class="cu-form-group">
         <view class="title">专业</view>
-        <input name="major" class="text-right" value="计算机科学与技术" disabled />
+        <input name="major" class="text-right" :value="user.major?user.major:'暂无'" disabled />
       </view>
       <view class="cu-form-group">
         <view class="title">所属支部</view>
-        <input name="major" class="text-right" value="计信一支部" disabled />
+        <input name="major" class="text-right" :value="user.department?user.department:'暂无'" disabled />
       </view>
       <view class="btn-box flex ">
         <button class="cu-btn line-green text-green" @click="backNav">返回上级</button>
@@ -46,6 +46,15 @@
 
 <script>
 export default {
+  data(){
+    return{
+       user:{}
+    }
+  },
+  onLoad(){
+    this.user=uni.getStorageSync('userInfo')
+    console.log(this.user)
+  },
   methods: {
     backNav(){
       uni.navigateBack({

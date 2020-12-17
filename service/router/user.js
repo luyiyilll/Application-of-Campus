@@ -9,7 +9,6 @@ router.post('/openid', async function (req, res, next) {
   await axios.get('http://api.weixin.qq.com/sns/jscode2session?appid=' + config.appId + '&secret=' + config.appScrect + '&js_code=' + req.body.code + '&grant_type=authorization_code').then(response => {
     openid = response.data.openid
     querySql("select * from tb_user where openid='" + openid + "'").then(r => {
-      console.log(r)
       if (r == "") {
         res.json({
           openid: openid,
@@ -18,30 +17,30 @@ router.post('/openid', async function (req, res, next) {
         })
       } else {
         let info = {
-          nick_name: r.nick_name,
-          avatar: r.avatar,
-          realname: r.realname,
-          IDcode: r.IDcode,
-          tel: r.tel,
-          birthday: r.birthday,
-          gender: r.gender,
-          grade: r.grade,
-          academic: r.academic,
-          major: r.major,
-          department: r.department,
-          is_agreen: r.is_agreen,
-          identity: r.identity,
-          is_check: r.is_check,
-          is_pass: r.is_pass,
-          petition_pic: r.petition_pic,
-          faimly_pic: r.faimly_pic,
-          resume_pic: r.resume_pic,
-          statement_pic: r.statement_pic,
-          excellent_pic: r.excellent_pic,
-          certifate_pic: r.certifate_pic,
-          normal_pic: r.normal_pic,
-          applybook_pic: r.applybook_pic,
-          tonormal_pic: r.tonormal_pic
+          nick_name: r[0].nick_name,
+          avatar: r[0].avatar,
+          realname: r[0].realname,
+          IDcode: r[0].IDcode,
+          tel: r[0].tel,
+          birthday: r[0].birthday,
+          gender: r[0].gender,
+          grade: r[0].grade,
+          academic: r[0].academic,
+          major: r[0].major,
+          department: r[0].department,
+          is_agreen: r[0].is_agreen,
+          identity: r[0].identity,
+          is_check: r[0].is_check,
+          is_pass: r[0].is_pass,
+          petition_pic: r[0].petition_pic,
+          faimly_pic: r[0].faimly_pic,
+          resume_pic: r[0].resume_pic,
+          statement_pic: r[0].statement_pic,
+          excellent_pic: r[0].excellent_pic,
+          certifate_pic: r[0].certifate_pic,
+          normal_pic: r[0].normal_pic,
+          applybook_pic: r[0].applybook_pic,
+          tonormal_pic: r[0].tonormal_pic
         }
         res.json({
           info: info,

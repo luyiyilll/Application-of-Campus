@@ -30,9 +30,8 @@
           if (res.errMsg == 'login:ok') {
             let code = res.code
             getOpenid({ code }).then(response => {
-              console.log('r',response)
-              that.$store.commit('SET_USER_OPENID', response.data.openid ? response.data.openid : '')
-              that.$store.commit('SET_USER_INFO', response.data.info ? response.data.info : '')
+              uni.setStorageSync('openid',response.data.openid ? response.data.openid : '')
+              uni.setStorageSync('userInfo', response.data.info !== '' ? response.data.info : '')
               that.getSetting();
             })
           } else {
@@ -66,15 +65,13 @@
         uni.getUserInfo({
           provider: 'weixin',
           success: function (infoRes) {
-            console.log('13', infoRes)
-            that.$store.commit('SET_USER_INFO', infoRes)
             let data = {
-              openid: that.$store.state.openid,
+              openid:uni.getStorageSync('openid'),
               nick_name: infoRes.userInfo.nickName,
               gender: infoRes.userInfo.gender == 1 ? '男' : '女',
               avatarurl: infoRes.userInfo.avatarUrl,
             }
-            console.log(data)
+            uni.setStorageSync('userInfo', data)
             addUser(data).then(res => {
               uni.showLoading({
                 title: "登录中..."

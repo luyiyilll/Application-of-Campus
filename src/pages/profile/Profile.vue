@@ -3,11 +3,11 @@
     <!-- style="background:url('../../static/bg.jpg'); background-size: 100% 100%;" -->
     <view class="banner" style="background:url('../../static/profile_banner.png'); background-size: 100% 100%;">
       <view>
-        <img src="../../static/head.jpg" alt="" class="head-img">
+        <img :src="user.avatar" alt="" class="head-img">
       </view>
       <view>
-        <view class="name">luyiyi_lll</view>
-        <view class="identity">学生</view>
+        <view class="name">{{user.nick_name}}</view>
+        <view class="identity">{{user.identity?user.identity:'群众'}}</view>
       </view>
     </view>
     <view class="nav-tab">
@@ -36,10 +36,13 @@
           { title: '我的申请', icon: '../../static/apply.png' },
           { title: '我的收藏', icon: '../../static/colection.png' },
           { title: '最近浏览', icon: '../../static/records.png' },
-        ]
+        ],
+        user:{}
       };
     },
-    onLoad() { },
+    onLoad() { 
+      this.user=uni.getStorageSync('userInfo')
+    },
     components: {
       TabBar
     },

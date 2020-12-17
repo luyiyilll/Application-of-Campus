@@ -130,4 +130,9 @@
   .title{
     font-size:16px;
   }
+  .cu-bar{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+  }
 </style>

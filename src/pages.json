@@ -1,6 +1,18 @@
 {
   "pages": [
     {
+      "path": "pages/profile/info/info",
+      "style": {
+        "navigationBarTitleText": "我的信息"
+      }
+    },
+    {
+      "path": "pages/profile/profile",
+      "style": {
+        "navigationBarTitleText": "个人中心"
+      }
+    },
+    {
       "path": "pages/login/login",
       "style": {
         "navigationBarTitleText": "登录"
@@ -24,12 +36,7 @@
         "navigationBarTitleText": "工作"
       }
     },
-    {
-      "path": "pages/profile/info/info",
-      "style": {
-        "navigationBarTitleText": "我的信息"
-      }
-    },
+
     {
       "path": "pages/profile/collection/collection",
       "style": {
@@ -76,12 +83,6 @@
       "path": "pages/work/student/apply",
       "style": {
         "navigationBarTitleText": "入党申请"
-      }
-    },
-    {
-      "path": "pages/profile/profile",
-      "style": {
-        "navigationBarTitleText": "个人中心"
       }
     },
     {
