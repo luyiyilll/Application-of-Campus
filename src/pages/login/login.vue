@@ -30,7 +30,7 @@
           if (res.errMsg == 'login:ok') {
             let code = res.code
             getOpenid({ code }).then(response => {
-              console.log(response)
+              console.log('r',response)
               that.$store.commit('SET_USER_OPENID', response.data.openid ? response.data.openid : '')
               that.$store.commit('SET_USER_INFO', response.data.info ? response.data.info : '')
               that.getSetting();
@@ -52,7 +52,7 @@
               uni.showLoading({
                 title: "登录中..."
               })
-              uni.navigateTo({
+              uni.redirectTo({
                 url: '/pages/index/index',
               });
             } else {
@@ -68,16 +68,21 @@
           success: function (infoRes) {
             console.log('13', infoRes)
             that.$store.commit('SET_USER_INFO', infoRes)
-            // let data = {
-            //   openid: openInfo.openid,
-            //   session_key: openInfo.session_key,
-            //   nick_name: info.nickName,
-            //   gender: info.gender == 1 ? '男' : '女',
-            //   avatar: info.avatarUrl,
-            // }
-            // addUser(data).then(res => {
-            //   console.log(res)
-            // })
+            let data = {
+              openid: that.$store.state.openid,
+              nick_name: infoRes.userInfo.nickName,
+              gender: infoRes.userInfo.gender == 1 ? '男' : '女',
+              avatarurl: infoRes.userInfo.avatarUrl,
+            }
+            console.log(data)
+            addUser(data).then(res => {
+              uni.showLoading({
+                title: "登录中..."
+              })
+              uni.redirectTo({
+                url: '/pages/index/index',
+              });
+            })
           }
         })
       },
