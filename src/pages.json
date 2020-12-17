@@ -1,6 +1,18 @@
 {
   "pages": [
     {
+      "path": "pages/work/student/apply",
+      "style": {
+        "navigationBarTitleText": "入党申请"
+      }
+    },
+    {
+      "path": "pages/work/work",
+      "style": {
+        "navigationBarTitleText": "工作"
+      }
+    },
+    {
       "path": "pages/profile/info/info",
       "style": {
         "navigationBarTitleText": "我的信息"
@@ -30,13 +42,6 @@
         "navigationBarTitleText": "详情"
       }
     },
-    {
-      "path": "pages/work/work",
-      "style": {
-        "navigationBarTitleText": "工作"
-      }
-    },
-
     {
       "path": "pages/profile/collection/collection",
       "style": {
@@ -77,12 +82,6 @@
       "path": "pages/work/student/active",
       "style": {
         "navigationBarTitleText": "入党积极分子申请"
-      }
-    },
-    {
-      "path": "pages/work/student/apply",
-      "style": {
-        "navigationBarTitleText": "入党申请"
       }
     },
     {

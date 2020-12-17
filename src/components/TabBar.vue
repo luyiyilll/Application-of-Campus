@@ -109,14 +109,6 @@
 </script>
 
 <style>
-  .footer {
-    background: #fff !important;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    border-top: 1px solid rgb(240, 240, 240);
-    z-index: 999;
-  }
 
   .tab-text-color {
     color: #000;
@@ -130,9 +122,14 @@
   .title{
     font-size:16px;
   }
-  .cu-bar{
+  
+  .footer {
+    background: #fff !important;
     width: 100%;
     position: fixed;
     bottom: 0;
+    border-top: 1px solid rgb(240, 240, 240);
+    z-index: 999;
   }
+
 </style>

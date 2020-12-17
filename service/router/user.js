@@ -4,6 +4,8 @@ const axios = require('axios')
 const router = express.Router();
 
 const { querySql } = require('../sql/index')
+
+/*如果用户存在，返回用户信息，不存在，返回openid*/
 router.post('/openid', async function (req, res, next) {
   let openid;
   await axios.get('http://api.weixin.qq.com/sns/jscode2session?appid=' + config.appId + '&secret=' + config.appScrect + '&js_code=' + req.body.code + '&grant_type=authorization_code').then(response => {
@@ -57,6 +59,7 @@ router.post('/openid', async function (req, res, next) {
   })
 })
 
+/*注册用户*/
 router.post('/adduser', function (req, res) {
   console.log('req:', req.body)
   querySql("insert into tb_user(openid,nick_name,avatar,gender) values('" + req.body.openid + "','" + req.body.nick_name + "','" + req.body.avatarurl + "','" + req.body.gender + "')").then(response => {
@@ -73,6 +76,16 @@ router.post('/adduser', function (req, res) {
   })
 })
 
+router.get('/grade', function (req, res) {
+  let now = new Date()
+  let nowyear = now.getUTCFullYear()
+  let grade = [nowyear]
+  for (let i = 0; i < 3; i++) {
+    nowyear--;
+    grade.push(nowyear)
+  }
+  console.log(grade)
+})
   // router.post('/login', function (req, res) {
   //   let result;
   //   axios.get('http://api.weixin.qq.com/sns/jscode2session?appid=' + config.appId + '&secret=' + config.appScrect + '&js_code=' + req.body.code + '&grant_type=authorization_code').then(response => {

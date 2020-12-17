@@ -3,11 +3,11 @@
     <view class="info-title padding">填写基本信息</view>
     <view class="cu-form-group ">
       <view class="title">姓名</view>
-      <input class="text-right" placeholder="请输入真实姓名" v-model="info.name" />
+      <input class="text-right"  placeholder="请输入真实姓名" v-model="info.realname" required/>
     </view>
     <view class="cu-form-group">
       <view class="title">出生日期</view>
-      <picker mode="date" v-model="info.date" start="1990-01-01" end="2020-09-01" @input="DateChange">
+      <picker mode="date" v-model="info.birthday" start="1990-01-01" end="2020-09-01" @change="DateChange">
         <view class="picker">
           {{info.date?info.date:'请选择出生日期'}}
         </view>
@@ -15,12 +15,12 @@
     </view>
     <view class="cu-form-group">
       <view class="title">身份证号码</view>
-      <input class="text-right" placeholder="请输入身份证号码" v-model="info.IDcode" @input="testIDcode" />
+      <input class="text-right"  placeholder="请输入身份证号码" v-model="info.IDcode" @blur="testIDcode" required/>
     </view>
     <view class="text-right text-red" v-if="idflag">身份证号码格式不正确</view>
     <view class="cu-form-group">
       <view class="title">手机号码</view>
-      <input class="text-right" placeholder="请输入手机号码" v-model="info.tel" @input="testTel" />
+      <input class="text-right" placeholder="请输入手机号码" v-model="info.tel" @blur="testTel" required/>
     </view>
     <view class="text-right text-red" v-if="telflag">手机号码格式不正确</view>
     <view class="cu-form-group">
@@ -127,7 +127,7 @@
       </view>
     </view>
     <view class="btn-box padding-bottom-sm padding-top-sm">
-      <button class="cu-btn shadow-blur lg">提交</button>
+      <button class="cu-btn shadow-blur lg" @click="submitBtn">提交</button>
     </view>
   </view>
 </template>
@@ -135,10 +135,11 @@
   export default {
     data() {
       return {
+        user:{},
         info: {
-          name: '',
-          sex: 'female',
-          date: '',
+          realname: '',
+          gender: 'female',
+          birthday: '',
           IDcode: '',
           tel: '',
           grade: '',
@@ -147,8 +148,6 @@
           department: ''
 
         },
-        idflag: false,
-        telflag: false,
         gradeList: ['2017', '2018', '2019', '2020'],
         indexg: -1,
         academicList: [
@@ -174,14 +173,25 @@
       }
     },
     onLoad() {
-
+      this.user=uni.getStorageSync('userInfo')
     },
     methods: {
       DateChange(e) {
-        this.info.date = e.detail.value;
-        console.log(e.detail.value)
+        let birth=new Date(e.detail.value)
+        let now=new Date()
+        let years=Math.floor((now-birth) / 1000 / 60 / 60 / 24/ 365)
+        if(years>=18){
+          this.info.date = e.detail.value;
+        }else{
+          uni.showToast({
+            title: '未满18周岁!',
+            icon:'none',
+            duration: 2000
+          })
+        }
       },
       gradeListChange(e) {
+        console.log(e.detail.value)
         this.indexg = e.detail.value
         this.info.grade = this.gradeList[this.indexg];
       },
@@ -204,19 +214,26 @@
         console.log(this.info.IDcode)
         let parren = /^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
         if (!parren.test(this.info.IDcode)) {
-          this.idflag = true;
-        } else {
-          this.idflag = false;
+           uni.showToast({
+            title: '格式不正确!',
+            icon:'none',
+            duration: 2000
+          })
+          this.info.IDcode=''
         }
+      
       },
       testTel() {
         console.log(this.info.tel);
         let parren = /^1[3|4|5|8][0-9]\d{8}$/
         if (!parren.test(this.info.tel)) {
-          this.telflag = true;
-        } else {
-          this.telflag = false;
-        }
+           uni.showToast({
+            title: '格式不正确!',
+            icon:'none',
+            duration: 2000
+          })
+          this.info.tel=''
+        } 
       },
       ChooseImage() {
         uni.chooseImage({
@@ -250,6 +267,10 @@
             }
           }
         })
+      },
+      submitBtn(){
+        
+        console.log(this.info)
       }
     },
   }
