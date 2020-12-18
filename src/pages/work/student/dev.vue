@@ -3,13 +3,13 @@
     <view class="info-title ">入党积极分子党课结业证书材料</view>
     <view class="cu-form-group">
       <view class="grid margin-top-sm col-4 grid-square flex-sub">
-        <view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
-          <image :src="imgList[index]" mode="aspectFill"></image>
-          <view class="cu-tag bg-red" @tap.stop="DelImg" :data-index="index">
+        <view class="bg-img" v-for="(item,index) in certifate_pic" :key="index" @tap="ViewImage(0,$event)" :data-url="certifate_pic[index]">
+          <image :src="certifate_pic[index]" mode="aspectFill"></image>
+          <view class="cu-tag bg-red" @tap.stop="DelImg(0,$event)" :data-index="index">
             <text class='cuIcon-close'></text>
           </view>
         </view>
-        <view class="solids" @tap="ChooseImage" v-if="imgList.length<4">
+        <view class="solids" @tap="ChooseImage(0)" v-if="certifate_pic.length<4">
           <text class='cuIcon-cameraadd'></text>
         </view>
       </view>
@@ -18,19 +18,19 @@
     <view class="info-title ">两位正式党员介绍人材料</view>
     <view class="cu-form-group">
       <view class="grid margin-top-sm col-4 grid-square flex-sub">
-        <view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
-          <image :src="imgList[index]" mode="aspectFill"></image>
-          <view class="cu-tag bg-red" @tap.stop="DelImg" :data-index="index">
+        <view class="bg-img" v-for="(item,index) in normal_pic" :key="index" @tap="ViewImage(1,$event)" :data-url="normal_pic[index]">
+          <image :src="normal_pic[index]" mode="aspectFill"></image>
+          <view class="cu-tag bg-red" @tap.stop="DelImg(1,$event)" :data-index="index">
             <text class='cuIcon-close'></text>
           </view>
         </view>
-        <view class="solids" @tap="ChooseImage" v-if="imgList.length<4">
+        <view class="solids" @tap="ChooseImage(1)" v-if="normal_pic.length<4">
           <text class='cuIcon-cameraadd'></text>
         </view>
       </view>
     </view>
     <view class="btn-box padding-bottom-sm padding-top-sm">
-      <button class="cu-btn shadow-blur lg">提交</button>
+      <button class="cu-btn shadow-blur lg" @click="submitBtn">提交</button>
     </view>
   </view>
 </template>
@@ -38,9 +38,73 @@
   export default {
     data() {
       return {
-        imgList: [],
+        certifate_pic: [],
+        normal_pic:[]
       }
     },
+    methods:{
+      ChooseImage(index) {
+        uni.chooseImage({
+          count: 4, //默认9
+          sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['album'], //从相册选择
+          success: (res) => {
+            if(index==0){
+              if (this.certifate_pic.length != 0) {
+                this.certifate_pic = this.certifate_pic.concat(res.tempFilePaths)
+              } else {
+                this.certifate_pic = res.tempFilePaths
+              }
+            }else{
+              if (this.normal_pic.length != 0) {
+                this.normal_pic = this.normal_pic.concat(res.tempFilePaths)
+              } else {
+                this.normal_pic = res.tempFilePaths
+              }
+            }
+            
+          }
+        });
+      },
+      ViewImage(index,e) {
+        if(index==0){
+          uni.previewImage({
+            urls: this.certifate_pic,
+            current: e.currentTarget.dataset.url
+          });
+        }else{
+          uni.previewImage({
+            urls: this.normal_pic,
+            current: e.currentTarget.dataset.url
+          });
+        }
+       
+      },
+      DelImg(index,e) {
+        uni.showModal({
+          title: '删除图片',
+          content: '确定要删除吗？',
+          cancelText: '取消',
+          confirmText: '确定',
+          success: res => {
+            if (res.confirm) {
+              if(index==0){
+                this.certifate_pic.splice(e.currentTarget.dataset.index, 1)
+              }else{
+                this.normal_pic.splice(e.currentTarget.dataset.index, 1)
+              }
+              
+            }
+          }
+        })
+      },
+            
+      /*提交信息*/
+      submitBtn(){
+        
+        console.log(this.info)
+      }
+    }
   }
 </script>
 <style scoped>

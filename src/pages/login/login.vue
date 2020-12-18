@@ -14,7 +14,7 @@
   </view>
 </template>
 <script>
-  import { login, getOpenid } from '../../network/student/login'
+  import { login, getOpenid } from '../../network/login'
   import { addUser } from '../../network/student/user'
   export default {
     data() {

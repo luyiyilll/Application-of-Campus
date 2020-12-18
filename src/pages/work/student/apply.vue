@@ -7,7 +7,7 @@
     </view>
     <view class="cu-form-group">
       <view class="title">出生日期</view>
-      <picker mode="date" v-model="info.birthday" start="1990-01-01" end="2020-09-01" @change="DateChange">
+      <picker mode="date" v-model="info.date" start="1990-01-01" end="2020-09-01" @change="DateChange">
         <view class="picker">
           {{info.date?info.date:'请选择出生日期'}}
         </view>
@@ -70,13 +70,13 @@
     <view class="info-title ">入党申请书材料</view>
     <view class="cu-form-group">
       <view class="grid margin-top-sm col-4 grid-square flex-sub">
-        <view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
-          <image :src="imgList[index]" mode="aspectFill"></image>
-          <view class="cu-tag bg-red" @tap.stop="DelImg" :data-index="index">
+        <view class="bg-img" v-for="(item,index) in info.petition_pic" :key="index" @tap="ViewImage(0,$event)" :data-url="info.petition_pic[index]">
+          <image :src="info.petition_pic[index]" mode="aspectFill"></image>
+          <view class="cu-tag bg-red" @tap.stop="DelImg(0,$event)" :data-index="index">
             <text class='cuIcon-close'></text>
           </view>
         </view>
-        <view class="solids" @tap="ChooseImage" v-if="imgList.length<4">
+        <view class="solids" @tap="ChooseImage(0)" v-if="info.petition_pic.length<4">
           <text class='cuIcon-cameraadd'></text>
         </view>
       </view>
@@ -85,13 +85,13 @@
     <view class="info-title ">家庭成员及主要社会关系</view>
     <view class="cu-form-group">
       <view class="grid margin-top-sm col-4 grid-square flex-sub">
-        <view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
-          <image :src="imgList[index]" mode="aspectFill"></image>
-          <view class="cu-tag bg-red" @tap.stop="DelImg" :data-index="index">
+        <view class="bg-img" v-for="(item,index) in info.family_pic" :key="index" @tap="ViewImage(1,$event)" :data-url="info.family_pic[index]">
+          <image :src="info.family_pic[index]" mode="aspectFill"></image>
+          <view class="cu-tag bg-red" @tap.stop="DelImg(1,$event)" :data-index="index">
             <text class='cuIcon-close'></text>
           </view>
         </view>
-        <view class="solids" @tap="ChooseImage" v-if="imgList.length<4">
+        <view class="solids" @tap="ChooseImage(1)" v-if="info.family_pic.length<4">
           <text class='cuIcon-cameraadd'></text>
         </view>
       </view>
@@ -100,13 +100,13 @@
     <view class="info-title ">个人履历材料</view>
     <view class="cu-form-group">
       <view class="grid margin-top-sm col-4 grid-square flex-sub">
-        <view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
-          <image :src="imgList[index]" mode="aspectFill"></image>
-          <view class="cu-tag bg-red" @tap.stop="DelImg" :data-index="index">
+        <view class="bg-img" v-for="(item,index) in info.resume_pic" :key="index" @tap="ViewImage(2,$event)" :data-url="info.resume_pic[index]">
+          <image :src="info.resume_pic[index]" mode="aspectFill"></image>
+          <view class="cu-tag bg-red" @tap.stop="DelImg(2,$event)" :data-index="index">
             <text class='cuIcon-close'></text>
           </view>
         </view>
-        <view class="solids" @tap="ChooseImage" v-if="imgList.length<4">
+        <view class="solids" @tap="ChooseImage(2)" v-if="info.resume_pic.length<4">
           <text class='cuIcon-cameraadd'></text>
         </view>
       </view>
@@ -115,13 +115,13 @@
     <view class="info-title ">个人自传材料</view>
     <view class="cu-form-group">
       <view class="grid margin-top-sm col-4 grid-square flex-sub">
-        <view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
-          <image :src="imgList[index]" mode="aspectFill"></image>
-          <view class="cu-tag bg-red" @tap.stop="DelImg" :data-index="index">
+        <view class="bg-img" v-for="(item,index) in info.statement_pic" :key="index" @tap="ViewImage(3,$event)" :data-url="info.statement_pic[index]">
+          <image :src="info.statement_pic[index]" mode="aspectFill"></image>
+          <view class="cu-tag bg-red" @tap.stop="DelImg(3,$event)" :data-index="index">
             <text class='cuIcon-close'></text>
           </view>
         </view>
-        <view class="solids" @tap="ChooseImage" v-if="imgList.length<4">
+        <view class="solids" @tap="ChooseImage(3)" v-if="info.statement_pic.length<4">
           <text class='cuIcon-cameraadd'></text>
         </view>
       </view>
@@ -132,6 +132,8 @@
   </view>
 </template>
 <script>
+  import {getGrade,info} from '../../../network/student/user'
+  import {getAcademic,getMajor,getDepartment} from "../../../network/academic"
   export default {
     data() {
       return {
@@ -139,28 +141,24 @@
         info: {
           realname: '',
           gender: 'female',
-          birthday: '',
+          date: '',
           IDcode: '',
           tel: '',
           grade: '',
           academic: '',
           major: '',
-          department: ''
+          department: '',
+          petition_pic:[],
+          family_pic:[],
+          resume_pic:[],
+          statement_pic:[]
 
         },
-        gradeList: ['2017', '2018', '2019', '2020'],
+        gradeList: [],
         indexg: -1,
-        academicList: [
-          '计算机与信息科学',
-          '汉语言文学',
-          '商务英语'
-        ],
+        academicList: [],
         indexa: -1,
-        majorList: [
-          '计算机科学与技术',
-          '电子商务',
-          '软件工程'
-        ],
+        majorList: [],
         indexm: -1,
         departmentList: [
           '计信第一支部',
@@ -169,13 +167,25 @@
         indexd: -1,
 
         indeximg: -1,
-        imgList: []
+        
       }
     },
     onLoad() {
       this.user=uni.getStorageSync('userInfo')
+      this.getAllGrade()
+      this.getAllAcademic()
     },
     methods: {
+      getAllGrade(){
+        getGrade().then(res=>{
+         this.gradeList=res.data.grade
+        })
+      },
+      getAllAcademic(){
+        getAcademic().then(res=>{
+          this.academicList=res.data.academic
+        })
+      },
       DateChange(e) {
         let birth=new Date(e.detail.value)
         let now=new Date()
@@ -191,17 +201,31 @@
         }
       },
       gradeListChange(e) {
-        console.log(e.detail.value)
         this.indexg = e.detail.value
         this.info.grade = this.gradeList[this.indexg];
       },
       academicListChange(e) {
         this.indexa = e.detail.value;
         this.info.academic = this.academicList[this.indexa];
+        getMajor({academic:this.info.academic}).then(res=>{
+          this.majorList=res.data.major
+        }).catch(e=>{
+          this.info.academic=''
+        })
+        getDepartment({academic:this.info.academic}).then(res=>{
+          this.departmentList=res.data.depart
+        })
       },
       majorListChange(e) {
-        this.indexm = e.detail.value;
-        this.info.major = this.majorList[this.indexm];
+        if(this.info.academic==''){
+          uni.showToast({
+            title:'请先选择学院',
+            icon:'none'
+          })
+        }else{
+          this.indexm = e.detail.value;
+          this.info.major = this.majorList[this.indexm];
+        }
       },
       departmentListChange(e) {
         this.indexd = e.detail.value;
@@ -211,7 +235,6 @@
         this.info.sex = e.detail.value
       },
       testIDcode() {
-        console.log(this.info.IDcode)
         let parren = /^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
         if (!parren.test(this.info.IDcode)) {
            uni.showToast({
@@ -224,7 +247,6 @@
       
       },
       testTel() {
-        console.log(this.info.tel);
         let parren = /^1[3|4|5|8][0-9]\d{8}$/
         if (!parren.test(this.info.tel)) {
            uni.showToast({
@@ -235,27 +257,66 @@
           this.info.tel=''
         } 
       },
-      ChooseImage() {
+      ChooseImage(index) {
         uni.chooseImage({
           count: 4, //默认9
           sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
           sourceType: ['album'], //从相册选择
           success: (res) => {
-            if (this.imgList.length != 0) {
-              this.imgList = this.imgList.concat(res.tempFilePaths)
-            } else {
-              this.imgList = res.tempFilePaths
+            if(index==0){
+              if (this.info.petition_pic.length != 0) {
+                this.info.petition_pic = this.info.petition_pic.concat(res.tempFilePaths)
+              } else {
+                this.info.petition_pic = res.tempFilePaths
+              }
+            }else if(index==1){
+              if (this.info.family_pic.length != 0) {
+                this.info.family_pic = this.info.family_pic.concat(res.tempFilePaths)
+              } else {
+                this.info.family_pic = res.tempFilePaths
+              }
+            }else if(index==2){
+              if (this.info.resume_pic.length != 0) {
+                this.info.resume_pic = this.info.resume_pic.concat(res.tempFilePaths)
+              } else {
+                this.info.resume_pic = res.tempFilePaths
+              }
+            }else if(index==3){
+              if (this.info.resume_pic.length != 0) {
+                this.info.statement_pic = this.info.statement_pic.concat(res.tempFilePaths)
+              } else {
+                this.info.statement_pic = res.tempFilePaths
+              }
             }
+            
           }
         });
       },
-      ViewImage(e) {
-        uni.previewImage({
-          urls: this.imgList,
-          current: e.currentTarget.dataset.url
-        });
+      ViewImage(index,e) {
+        if(index==0){
+          uni.previewImage({
+            urls: this.info.petition_pic,
+            current: e.currentTarget.dataset.url
+          });
+        }else if(index==1){
+          uni.previewImage({
+            urls: this.info.family_pic,
+            current: e.currentTarget.dataset.url
+          });
+        }else if(index==2){
+          uni.previewImage({
+            urls: this.info.resume_pic,
+            current: e.currentTarget.dataset.url
+          });
+        }else if(index==3){
+          uni.previewImage({
+            urls: this.info.statement_pic,
+            current: e.currentTarget.dataset.url
+          });
+        }
+       
       },
-      DelImg(e) {
+      DelImg(index,e) {
         uni.showModal({
           title: '删除图片',
           content: '确定要删除吗？',
@@ -263,14 +324,105 @@
           confirmText: '确定',
           success: res => {
             if (res.confirm) {
-              this.imgList.splice(e.currentTarget.dataset.index, 1)
+              if(index==0){
+                this.info.petition_pic.splice(e.currentTarget.dataset.index, 1)
+              }else if(index==1){
+                this.info.family_pic.splice(e.currentTarget.dataset.index, 1)
+              }else if(index==2){
+                this.info.resume_pic.splice(e.currentTarget.dataset.index, 1)
+              }else if(index==3){
+              this.info.statement_pic.splice(e.currentTarget.dataset.index, 1)
+              }
+              
             }
           }
         })
       },
+
+      /*提交信息*/
       submitBtn(){
+        let realname=this.info.realname;
+        let gender=(this.info.gender=='female'?'女':'男')
+        let birthday=this.info.date;
+        let IDcode=this.info.IDcode;
+        let tel=this.info.tel;
+        let grade=this.info.grade;
+        let academic=this.info.academic;
+        let major=this.info.major;
+        let department=this.info.department;
+        let petition_pic=this.info.petition_pic;
+        let family_pic=this.info.family_pic;
+        let resume_pic=this.info.resume_pic;
+        let statement_pic=this.info.statement_pic;
         
-        console.log(this.info)
+     //   if(realname &&  gender && birthday && IDcode && tel && grade && academic && major && department && petition_pic.length!=0 && family_pic.length!=0 && resume_pic.length!=0 && statement_pic.length!=0){
+          let family_list=[],resume_list=[],statement_list=[]
+          let petition_list = petition_pic.map((value,index)=>{
+            return {
+              name:"image"+index,
+              uri:value
+            }
+          })
+          console.log(petition_list)
+          // for(let i=0;i<family_pic.length;i++){
+          //   family_list.push({name:'file'+i,uri:family_pic[i]})
+          // }
+          // for(let i=0;i<resume_pic.length;i++){
+          //   resume_list.push({name:'file'+i,uri:resume_pic[i]})
+          // }
+          // for(let i=0;i<statement_pic.length;i++){
+          //   statement_list.push({name:'file'+i,uri:statement_pic[i]})
+          // }
+          uni.uploadFile({
+            url:'http://localost:3000/user/petition',
+            files:petition_list,
+            success:function(res){
+              console.log(res)
+            }
+          })
+          
+            // uni.uploadFile({
+            //   url:'http://localost:3000/user/family',
+            //   files:family_list,
+            //   name:'file',
+            // })
+          
+         
+            // uni.uploadFile({
+            //   url:'http://localost:3000/user/resume',
+            //   filePath:resume_list,
+            //   name:'file',
+            // })
+          
+         
+            // uni.uploadFile({
+            //   url:'http://localost:3000/user/statement',
+            //   filePath:statement_list,
+            //   name:'file',
+            // })
+          
+          let user={
+            realname,
+            gender, 
+            birthday,
+            IDcode ,
+            tel,
+            grade,
+            academic,
+            major,
+            department 
+          }
+          // info({user}).then(res=>{
+
+          // })
+        // }else{
+        //   uni.showToast({
+        //     title: '信息填写不完整！!',
+        //     icon:'none',
+        //     duration: 2000
+        //   })
+        //  }
+        //console.log(this.info)
       }
     },
   }

@@ -1,6 +1,6 @@
-import { request } from '../index';
+import { request } from './index';
 
-export function login (data) {
+export function login(data) {
   return request({
     url: '/user/login',
     method: 'post',
@@ -8,7 +8,7 @@ export function login (data) {
   })
 }
 
-export function getOpenid (data) {
+export function getOpenid(data) {
   return request({
     url: '/user/openid',
     method: 'post',
