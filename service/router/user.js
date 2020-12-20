@@ -1,14 +1,16 @@
-const express = require('express')
-const config = require('./config.json')
-const axios = require('axios')
+const express = require('express');
+const config = require('./config.json');
+const axios = require('axios');
 const router = express.Router();
 const path = require('path')
-const multer = require('multer')
 const fs = require('fs')
-/*客户端临时放图片目录*/
-const upload = multer({ dest: "temp/" })
 
-const { querySql } = require('../sql/index')
+/*图片处理*/
+const formidable = require('formidable');
+
+
+
+const { querySql } = require('../sql/index');
 
 /*如果用户存在，返回用户信息，不存在，返回openid*/
 router.post('/openid', async function (req, res, next) {
@@ -90,7 +92,9 @@ router.get('/grade', function (req, res) {
     grade.push(nowyear)
   }
   res.json({
-    grade
+    data: grade,
+    code: 1,
+    msg: '更新用户信息成功'
   })
 })
 
@@ -107,9 +111,28 @@ router.post('/info', function (req, res) {
 })
 
 /*上传用户入党申请书*/
-router.post('/petition', upload.single("file"), (req, res) => {
-  console.log(req)
-  res.json('...')
+router.post('/petition', function (req, res) {
+  let form = new formidable.IncomingForm();
+  form.encoding = 'utf-8';
+  form.uploadDir = path.join(__dirname + "/../temp");
+  form.keepExtensions = true;//保留后缀
+  form.maxFieldsSize = 2 * 1024 * 1024;
+  //处理图片
+  form.parse(req, function (err, fields, files) {
+    let filename = files.petition_pic.name
+    let nameArray = filename.split('.');
+    let type = nameArray[nameArray.length - 1];//后缀名
+    let name = '';
+    for (let i = 0; i < nameArray.length - 1; i++) {
+      name = name + nameArray[i];
+    }
+    let date = new Date();
+    let time = '_' + date.getFullYear() + "_" + date.getMonth() + "_" + date.getDay() + "_" + date.getHours() + "_" + date.getMinutes();
+    let avatarName = name + time + '.' + type;
+    let newPath = form.uploadDir + "/" + avatarName;
+    fs.renameSync(files.petition_pic.path, newPath);  //重命名
+    res.json({ data: avatarName })
+  })
 })
 
 module.exports = router

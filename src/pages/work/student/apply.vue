@@ -3,7 +3,7 @@
     <view class="info-title padding">填写基本信息</view>
     <view class="cu-form-group ">
       <view class="title">姓名</view>
-      <input class="text-right"  placeholder="请输入真实姓名" v-model="info.realname" required/>
+      <input class="text-right" placeholder="请输入真实姓名" v-model="info.realname" required />
     </view>
     <view class="cu-form-group">
       <view class="title">出生日期</view>
@@ -15,12 +15,12 @@
     </view>
     <view class="cu-form-group">
       <view class="title">身份证号码</view>
-      <input class="text-right"  placeholder="请输入身份证号码" v-model="info.IDcode" @blur="testIDcode" required/>
+      <input class="text-right" placeholder="请输入身份证号码" v-model="info.IDcode" @blur="testIDcode" required />
     </view>
     <view class="text-right text-red" v-if="idflag">身份证号码格式不正确</view>
     <view class="cu-form-group">
       <view class="title">手机号码</view>
-      <input class="text-right" placeholder="请输入手机号码" v-model="info.tel" @blur="testTel" required/>
+      <input class="text-right" placeholder="请输入手机号码" v-model="info.tel" @blur="testTel" required />
     </view>
     <view class="text-right text-red" v-if="telflag">手机号码格式不正确</view>
     <view class="cu-form-group">
@@ -70,7 +70,8 @@
     <view class="info-title ">入党申请书材料</view>
     <view class="cu-form-group">
       <view class="grid margin-top-sm col-4 grid-square flex-sub">
-        <view class="bg-img" v-for="(item,index) in info.petition_pic" :key="index" @tap="ViewImage(0,$event)" :data-url="info.petition_pic[index]">
+        <view class="bg-img" v-for="(item,index) in info.petition_pic" :key="index" @tap="ViewImage(0,$event)"
+          :data-url="info.petition_pic[index]">
           <image :src="info.petition_pic[index]" mode="aspectFill"></image>
           <view class="cu-tag bg-red" @tap.stop="DelImg(0,$event)" :data-index="index">
             <text class='cuIcon-close'></text>
@@ -85,7 +86,8 @@
     <view class="info-title ">家庭成员及主要社会关系</view>
     <view class="cu-form-group">
       <view class="grid margin-top-sm col-4 grid-square flex-sub">
-        <view class="bg-img" v-for="(item,index) in info.family_pic" :key="index" @tap="ViewImage(1,$event)" :data-url="info.family_pic[index]">
+        <view class="bg-img" v-for="(item,index) in info.family_pic" :key="index" @tap="ViewImage(1,$event)"
+          :data-url="info.family_pic[index]">
           <image :src="info.family_pic[index]" mode="aspectFill"></image>
           <view class="cu-tag bg-red" @tap.stop="DelImg(1,$event)" :data-index="index">
             <text class='cuIcon-close'></text>
@@ -100,7 +102,8 @@
     <view class="info-title ">个人履历材料</view>
     <view class="cu-form-group">
       <view class="grid margin-top-sm col-4 grid-square flex-sub">
-        <view class="bg-img" v-for="(item,index) in info.resume_pic" :key="index" @tap="ViewImage(2,$event)" :data-url="info.resume_pic[index]">
+        <view class="bg-img" v-for="(item,index) in info.resume_pic" :key="index" @tap="ViewImage(2,$event)"
+          :data-url="info.resume_pic[index]">
           <image :src="info.resume_pic[index]" mode="aspectFill"></image>
           <view class="cu-tag bg-red" @tap.stop="DelImg(2,$event)" :data-index="index">
             <text class='cuIcon-close'></text>
@@ -115,7 +118,8 @@
     <view class="info-title ">个人自传材料</view>
     <view class="cu-form-group">
       <view class="grid margin-top-sm col-4 grid-square flex-sub">
-        <view class="bg-img" v-for="(item,index) in info.statement_pic" :key="index" @tap="ViewImage(3,$event)" :data-url="info.statement_pic[index]">
+        <view class="bg-img" v-for="(item,index) in info.statement_pic" :key="index" @tap="ViewImage(3,$event)"
+          :data-url="info.statement_pic[index]">
           <image :src="info.statement_pic[index]" mode="aspectFill"></image>
           <view class="cu-tag bg-red" @tap.stop="DelImg(3,$event)" :data-index="index">
             <text class='cuIcon-close'></text>
@@ -132,12 +136,12 @@
   </view>
 </template>
 <script>
-  import {getGrade,info} from '../../../network/student/user'
-  import {getAcademic,getMajor,getDepartment} from "../../../network/academic"
+  import { getGrade, info } from '../../../network/student/user'
+  import { getAcademic, getMajor, getDepartment } from "../../../network/academic"
   export default {
     data() {
       return {
-        user:{},
+        user: {},
         info: {
           realname: '',
           gender: 'female',
@@ -148,10 +152,10 @@
           academic: '',
           major: '',
           department: '',
-          petition_pic:[],
-          family_pic:[],
-          resume_pic:[],
-          statement_pic:[]
+          petition_pic: [],
+          family_pic: [],
+          resume_pic: [],
+          statement_pic: []
 
         },
         gradeList: [],
@@ -167,35 +171,37 @@
         indexd: -1,
 
         indeximg: -1,
-        
+
       }
     },
     onLoad() {
-      this.user=uni.getStorageSync('userInfo')
+      this.user = uni.getStorageSync('userInfo')
       this.getAllGrade()
       this.getAllAcademic()
     },
     methods: {
-      getAllGrade(){
-        getGrade().then(res=>{
-         this.gradeList=res.data.grade
+      getAllGrade() {
+        getGrade().then(res => {
+          let { data } = res.data;
+          this.gradeList = data
         })
       },
-      getAllAcademic(){
-        getAcademic().then(res=>{
-          this.academicList=res.data.academic
+      getAllAcademic() {
+        getAcademic().then(res => {
+          let { academic } = res.data;
+          this.academicList = academic
         })
       },
       DateChange(e) {
-        let birth=new Date(e.detail.value)
-        let now=new Date()
-        let years=Math.floor((now-birth) / 1000 / 60 / 60 / 24/ 365)
-        if(years>=18){
+        let birth = new Date(e.detail.value)
+        let now = new Date()
+        let years = Math.floor((now - birth) / 1000 / 60 / 60 / 24 / 365)
+        if (years >= 18) {
           this.info.date = e.detail.value;
-        }else{
+        } else {
           uni.showToast({
             title: '未满18周岁!',
-            icon:'none',
+            icon: 'none',
             duration: 2000
           })
         }
@@ -207,22 +213,22 @@
       academicListChange(e) {
         this.indexa = e.detail.value;
         this.info.academic = this.academicList[this.indexa];
-        getMajor({academic:this.info.academic}).then(res=>{
-          this.majorList=res.data.major
-        }).catch(e=>{
-          this.info.academic=''
+        getMajor({ academic: this.info.academic }).then(res => {
+          this.majorList = res.data.major
+        }).catch(e => {
+          this.info.academic = ''
         })
-        getDepartment({academic:this.info.academic}).then(res=>{
-          this.departmentList=res.data.depart
+        getDepartment({ academic: this.info.academic }).then(res => {
+          this.departmentList = res.data.depart
         })
       },
       majorListChange(e) {
-        if(this.info.academic==''){
+        if (this.info.academic == '') {
           uni.showToast({
-            title:'请先选择学院',
-            icon:'none'
+            title: '请先选择学院',
+            icon: 'none'
           })
-        }else{
+        } else {
           this.indexm = e.detail.value;
           this.info.major = this.majorList[this.indexm];
         }
@@ -237,25 +243,25 @@
       testIDcode() {
         let parren = /^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
         if (!parren.test(this.info.IDcode)) {
-           uni.showToast({
+          uni.showToast({
             title: '格式不正确!',
-            icon:'none',
+            icon: 'none',
             duration: 2000
           })
-          this.info.IDcode=''
+          this.info.IDcode = ''
         }
-      
+
       },
       testTel() {
         let parren = /^1[3|4|5|8][0-9]\d{8}$/
         if (!parren.test(this.info.tel)) {
-           uni.showToast({
+          uni.showToast({
             title: '格式不正确!',
-            icon:'none',
+            icon: 'none',
             duration: 2000
           })
-          this.info.tel=''
-        } 
+          this.info.tel = ''
+        }
       },
       ChooseImage(index) {
         uni.chooseImage({
@@ -263,60 +269,60 @@
           sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
           sourceType: ['album'], //从相册选择
           success: (res) => {
-            if(index==0){
+            if (index == 0) {
               if (this.info.petition_pic.length != 0) {
                 this.info.petition_pic = this.info.petition_pic.concat(res.tempFilePaths)
               } else {
                 this.info.petition_pic = res.tempFilePaths
               }
-            }else if(index==1){
+            } else if (index == 1) {
               if (this.info.family_pic.length != 0) {
                 this.info.family_pic = this.info.family_pic.concat(res.tempFilePaths)
               } else {
                 this.info.family_pic = res.tempFilePaths
               }
-            }else if(index==2){
+            } else if (index == 2) {
               if (this.info.resume_pic.length != 0) {
                 this.info.resume_pic = this.info.resume_pic.concat(res.tempFilePaths)
               } else {
                 this.info.resume_pic = res.tempFilePaths
               }
-            }else if(index==3){
+            } else if (index == 3) {
               if (this.info.resume_pic.length != 0) {
                 this.info.statement_pic = this.info.statement_pic.concat(res.tempFilePaths)
               } else {
                 this.info.statement_pic = res.tempFilePaths
               }
             }
-            
+
           }
         });
       },
-      ViewImage(index,e) {
-        if(index==0){
+      ViewImage(index, e) {
+        if (index == 0) {
           uni.previewImage({
             urls: this.info.petition_pic,
             current: e.currentTarget.dataset.url
           });
-        }else if(index==1){
+        } else if (index == 1) {
           uni.previewImage({
             urls: this.info.family_pic,
             current: e.currentTarget.dataset.url
           });
-        }else if(index==2){
+        } else if (index == 2) {
           uni.previewImage({
             urls: this.info.resume_pic,
             current: e.currentTarget.dataset.url
           });
-        }else if(index==3){
+        } else if (index == 3) {
           uni.previewImage({
             urls: this.info.statement_pic,
             current: e.currentTarget.dataset.url
           });
         }
-       
+
       },
-      DelImg(index,e) {
+      DelImg(index, e) {
         uni.showModal({
           title: '删除图片',
           content: '确定要删除吗？',
@@ -324,97 +330,96 @@
           confirmText: '确定',
           success: res => {
             if (res.confirm) {
-              if(index==0){
+              if (index == 0) {
                 this.info.petition_pic.splice(e.currentTarget.dataset.index, 1)
-              }else if(index==1){
+              } else if (index == 1) {
                 this.info.family_pic.splice(e.currentTarget.dataset.index, 1)
-              }else if(index==2){
+              } else if (index == 2) {
                 this.info.resume_pic.splice(e.currentTarget.dataset.index, 1)
-              }else if(index==3){
-              this.info.statement_pic.splice(e.currentTarget.dataset.index, 1)
+              } else if (index == 3) {
+                this.info.statement_pic.splice(e.currentTarget.dataset.index, 1)
               }
-              
+
             }
           }
         })
       },
 
       /*提交信息*/
-      submitBtn(){
-        let realname=this.info.realname;
-        let gender=(this.info.gender=='female'?'女':'男')
-        let birthday=this.info.date;
-        let IDcode=this.info.IDcode;
-        let tel=this.info.tel;
-        let grade=this.info.grade;
-        let academic=this.info.academic;
-        let major=this.info.major;
-        let department=this.info.department;
-        let petition_pic=this.info.petition_pic;
-        let family_pic=this.info.family_pic;
-        let resume_pic=this.info.resume_pic;
-        let statement_pic=this.info.statement_pic;
-        
-     //   if(realname &&  gender && birthday && IDcode && tel && grade && academic && major && department && petition_pic.length!=0 && family_pic.length!=0 && resume_pic.length!=0 && statement_pic.length!=0){
-          let family_list=[],resume_list=[],statement_list=[]
-          let petition_list = petition_pic.map((value,index)=>{
-            return {
-              name:"image"+index,
-              uri:value
-            }
-          })
-          console.log(petition_list)
-          // for(let i=0;i<family_pic.length;i++){
-          //   family_list.push({name:'file'+i,uri:family_pic[i]})
-          // }
-          // for(let i=0;i<resume_pic.length;i++){
-          //   resume_list.push({name:'file'+i,uri:resume_pic[i]})
-          // }
-          // for(let i=0;i<statement_pic.length;i++){
-          //   statement_list.push({name:'file'+i,uri:statement_pic[i]})
-          // }
+      submitBtn() {
+        let realname = this.info.realname;
+        let gender = (this.info.gender == 'female' ? '女' : '男')
+        let birthday = this.info.date;
+        let IDcode = this.info.IDcode;
+        let tel = this.info.tel;
+        let grade = this.info.grade;
+        let academic = this.info.academic;
+        let major = this.info.major;
+        let department = this.info.department;
+        let petition_pic = this.info.petition_pic;
+        let family_pic = this.info.family_pic;
+        let resume_pic = this.info.resume_pic;
+        let statement_pic = this.info.statement_pic;
+
+        //   if(realname &&  gender && birthday && IDcode && tel && grade && academic && major && department && petition_pic.length!=0 && family_pic.length!=0 && resume_pic.length!=0 && statement_pic.length!=0){
+        petition_pic.forEach((item, index) => {
+          console.log(item)
           uni.uploadFile({
-            url:'http://localost:3000/user/petition',
-            files:petition_list,
-            success:function(res){
+            url: 'http://localhost:3000/user/petition',
+            filePath: item,
+            name: 'images' + index,
+            success: function (res) {
               console.log(res)
             }
           })
-          
-            // uni.uploadFile({
-            //   url:'http://localost:3000/user/family',
-            //   files:family_list,
-            //   name:'file',
-            // })
-          
-         
-            // uni.uploadFile({
-            //   url:'http://localost:3000/user/resume',
-            //   filePath:resume_list,
-            //   name:'file',
-            // })
-          
-         
-            // uni.uploadFile({
-            //   url:'http://localost:3000/user/statement',
-            //   filePath:statement_list,
-            //   name:'file',
-            // })
-          
-          let user={
-            realname,
-            gender, 
-            birthday,
-            IDcode ,
-            tel,
-            grade,
-            academic,
-            major,
-            department 
-          }
-          // info({user}).then(res=>{
+        })
 
-          // })
+
+        console.log('1111', petition_pic)
+        // for(let i=0;i<family_pic.length;i++){
+        //   family_list.push({name:'file'+i,uri:family_pic[i]})
+        // }
+        // for(let i=0;i<resume_pic.length;i++){
+        //   resume_list.push({name:'file'+i,uri:resume_pic[i]})
+        // }
+        // for(let i=0;i<statement_pic.length;i++){
+        //   statement_list.push({name:'file'+i,uri:statement_pic[i]})
+        // }
+
+        // uni.uploadFile({
+        //   url:'http://localost:3000/user/family',
+        //   files:family_list,
+        //   name:'file',
+        // })
+
+
+        // uni.uploadFile({
+        //   url:'http://localost:3000/user/resume',
+        //   filePath:resume_list,
+        //   name:'file',
+        // })
+
+
+        // uni.uploadFile({
+        //   url:'http://localost:3000/user/statement',
+        //   filePath:statement_list,
+        //   name:'file',
+        // })
+
+        let user = {
+          realname,
+          gender,
+          birthday,
+          IDcode,
+          tel,
+          grade,
+          academic,
+          major,
+          department
+        }
+        // info({user}).then(res=>{
+
+        // })
         // }else{
         //   uni.showToast({
         //     title: '信息填写不完整！!',

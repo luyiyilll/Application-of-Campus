@@ -27,7 +27,6 @@ function querySql (sql) {
       conn.end()
     }
   })
-
 }
 
 module.exports = {

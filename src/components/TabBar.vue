@@ -39,15 +39,15 @@
           <view class="content">发布讨论</view>
         </view>
         <view class="border-top border-bottom">
-           <view class="cu-form-group">
-            <input class="text-left title bold" v-model="discuss.title" placeholder="标题" name="input"/>
+          <view class="cu-form-group">
+            <input class="text-left title bold" v-model="discuss.title" placeholder="标题" name="input" />
           </view>
         </view>
-         <view class="border-bottom">
-           <view class="cu-form-group">
-              <textarea maxlength="-1" class="text-left" v-model="discuss.content" placeholder="请输入讨论内容..."></textarea>
-            </view>
-         </view>
+        <view class="border-bottom">
+          <view class="cu-form-group">
+            <textarea maxlength="-1" class="text-left" v-model="discuss.content" placeholder="请输入讨论内容..."></textarea>
+          </view>
+        </view>
         <view class="cu-bar bg-white">
           <view class="action margin-0 flex-sub text-green solid-left" @tap="cancel">取消</view>
           <view class="action margin-0 flex-sub  solid-left" @tap="confirm">确定</view>
@@ -57,7 +57,7 @@
 
   </view>
 
-  
+
 </template>
 
 <script>
@@ -66,10 +66,10 @@
     name: "TabBar",
     data() {
       return {
-        modal:false,
-        discuss:{
-          title:'',
-          content:''
+        modal: false,
+        discuss: {
+          title: '',
+          content: ''
         }
       };
     },
@@ -88,28 +88,28 @@
         }
         console.log(e)
       },
-      addArticle(){
-        this.modal=true;
+      addArticle() {
+        this.modal = true;
       },
-      textareaAInput(e){
+      textareaAInput(e) {
 
       },
-      cancel(){
+      cancel() {
         console.log(this.discuss)
-        this.modal=false;
+        this.modal = false;
       },
-      confirm(){
-        this.modal=false;
-        this.discuss.title="";
-        this.discuss.content="";
-         console.log(this.discuss)
+      confirm() {
+        console.log(this.discuss)
+        this.modal = false;
+        // this.discuss.title = "";
+        // this.discuss.content = "";
+        //console.log(this.discuss)
       }
     },
   };
 </script>
 
 <style>
-
   .tab-text-color {
     color: #000;
   }
@@ -119,10 +119,10 @@
     color: #fff;
   }
 
-  .title{
-    font-size:16px;
+  .title {
+    font-size: 16px;
   }
-  
+
   .footer {
     background: #fff !important;
     width: 100%;
@@ -131,5 +131,4 @@
     border-top: 1px solid rgb(240, 240, 240);
     z-index: 999;
   }
-
 </style>

@@ -30,7 +30,7 @@
           if (res.errMsg == 'login:ok') {
             let code = res.code
             getOpenid({ code }).then(response => {
-              uni.setStorageSync('openid',response.data.openid ? response.data.openid : '')
+              uni.setStorageSync('openid', response.data.openid ? response.data.openid : '')
               uni.setStorageSync('userInfo', response.data.info !== '' ? response.data.info : '')
               that.getSetting();
             })
@@ -66,7 +66,7 @@
           provider: 'weixin',
           success: function (infoRes) {
             let data = {
-              openid:uni.getStorageSync('openid'),
+              openid: uni.getStorageSync('openid'),
               nick_name: infoRes.userInfo.nickName,
               gender: infoRes.userInfo.gender == 1 ? '男' : '女',
               avatarurl: infoRes.userInfo.avatarUrl,

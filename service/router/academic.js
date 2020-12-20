@@ -36,14 +36,12 @@ router.post('/major', function (req, res) {
 /*获取部门*/
 router.get('/depart', function (req, res) {
   let academic = req.query.academic;
-  console.log('111111', academic)
   let sql = "select DISTINCT depart from tb_academic_major where academic='" + academic + "'";
   querySql(sql).then(response => {
     let depart = [];
     response.forEach(element => {
       depart.push(element.depart)
     })
-    console.log(depart)
     res.json({
       depart
     })
