@@ -62,6 +62,8 @@
 
 <script>
   import { mapState, mapMutations } from 'vuex'
+  import { getOpenid } from '../network/login';
+  import {addDiscuss} from '../network/discuss/discuss'
   export default {
     name: "TabBar",
     data() {
@@ -73,7 +75,6 @@
         }
       };
     },
-    onLoad() { },
     computed: {
       ...mapState(['PageCur'])
     },
@@ -91,16 +92,29 @@
       addArticle() {
         this.modal = true;
       },
-      textareaAInput(e) {
-
-      },
       cancel() {
         console.log(this.discuss)
         this.modal = false;
       },
       confirm() {
-        console.log(this.discuss)
-        this.modal = false;
+        let date=new Date()
+        let article={
+          title:this.discuss.title,
+          content:this.discuss.content,
+          postdate:date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate(),
+          publisher:uni.getStorageSync('openid')
+        }
+      console.log('openid',uni.getStorageSync('openid'))
+        console.log(uni.getStorageSync('userInfo'))
+        console.log(article)
+        addDiscuss(article).then(res=>{
+          this.modal = false;
+        }).catch(e=>{
+          uni.showToast({
+            title:'发布讨论失败',
+            icon:'none'
+          })
+        })
         // this.discuss.title = "";
         // this.discuss.content = "";
         //console.log(this.discuss)

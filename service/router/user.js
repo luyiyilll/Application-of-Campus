@@ -4,13 +4,12 @@ const axios = require('axios');
 const router = express.Router();
 const path = require('path')
 const fs = require('fs')
+const { getIdentity } = require('../utils/constant')
 
 /*图片处理*/
 const formidable = require('formidable');
 
-
-
-const { querySql } = require('../sql/index');
+const { querySql, findUserByOid } = require('../sql/index');
 
 /*如果用户存在，返回用户信息，不存在，返回openid*/
 router.post('/openid', async function (req, res, next) {
@@ -25,13 +24,14 @@ router.post('/openid', async function (req, res, next) {
           msg: '登录成功'
         })
       } else {
+        r[0].identity = getIdentity(r[0].identity);
         let info = {
           nick_name: r[0].nick_name,
           avatar: r[0].avatar,
           realname: r[0].realname,
           IDcode: r[0].IDcode,
           tel: r[0].tel,
-          birthday: r[0].birthday,
+          birthday: new Date(r[0].birthday).getFullYear() + '-' + (new Date(r[0].birthday).getMonth() + 1) + '-' + new Date(r[0].birthday).getDate(),
           gender: r[0].gender,
           grade: r[0].grade,
           academic: r[0].academic,
@@ -101,9 +101,24 @@ router.get('/grade', function (req, res) {
 /*上传用户信息*/
 router.post('/info', function (req, res) {
   let user = req.body.user;
-  let sql = "update tb_user set realname='" + user.realname + "',gender='" + user.gender + "',birthday='" + user.birthday + "',IDcode='" + user.IDcode + "',tel='" + user.tel + "',grade='" + user.grade + "',academic='" + user.academic + "',major='" + user.major + "',department='" + user.department + "'"
+  let sql = "update tb_user set realname='" + user.realname + "',gender='" + user.gender + "',birthday='" + user.birthday + "',IDcode='" + user.IDcode + "',tel='" + user.tel + "',grade='" + user.grade + "',academic='" + user.academic + "',major='" + user.major + "',department='" + user.department + "',identity=1";
   querySql(sql).then(response => {
     res.json({
+      code: 1,
+      msg: '更新用户信息成功'
+    })
+  })
+})
+
+/*根据openid获取用户信息*/
+router.post('/user/id', function (req, res) {
+  let openid = req.body.openid;
+  findUserByOid(openid).then(response => {
+    response[0].identity = getIdentity(response[0].identity);
+    console.log(response)
+    response[0].birthday = response[0].birthday.getFullYear() + '-' + (response[0].birthday.getMonth() + 1) + '-' + response[0].birthday.getDate()
+    res.json({
+      user: response[0],
       code: 1,
       msg: '更新用户信息成功'
     })

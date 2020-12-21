@@ -136,7 +136,7 @@
   </view>
 </template>
 <script>
-  import { getGrade, info } from '../../../network/student/user'
+  import { getGrade, info, findUserByOid } from '../../../network/student/user'
   import { getAcademic, getMajor, getDepartment } from "../../../network/academic"
   export default {
     data() {
@@ -361,49 +361,17 @@
         let resume_pic = this.info.resume_pic;
         let statement_pic = this.info.statement_pic;
 
-        //   if(realname &&  gender && birthday && IDcode && tel && grade && academic && major && department && petition_pic.length!=0 && family_pic.length!=0 && resume_pic.length!=0 && statement_pic.length!=0){
-        petition_pic.forEach((item, index) => {
-          console.log(item)
-          uni.uploadFile({
-            url: 'http://localhost:3000/user/petition',
-            filePath: item,
-            name: 'images' + index,
-            success: function (res) {
-              console.log(res)
-            }
-          })
-        })
-
-
-        console.log('1111', petition_pic)
-        // for(let i=0;i<family_pic.length;i++){
-        //   family_list.push({name:'file'+i,uri:family_pic[i]})
-        // }
-        // for(let i=0;i<resume_pic.length;i++){
-        //   resume_list.push({name:'file'+i,uri:resume_pic[i]})
-        // }
-        // for(let i=0;i<statement_pic.length;i++){
-        //   statement_list.push({name:'file'+i,uri:statement_pic[i]})
-        // }
-
-        // uni.uploadFile({
-        //   url:'http://localost:3000/user/family',
-        //   files:family_list,
-        //   name:'file',
-        // })
-
-
-        // uni.uploadFile({
-        //   url:'http://localost:3000/user/resume',
-        //   filePath:resume_list,
-        //   name:'file',
-        // })
-
-
-        // uni.uploadFile({
-        //   url:'http://localost:3000/user/statement',
-        //   filePath:statement_list,
-        //   name:'file',
+      if(realname &&  gender && birthday && IDcode && tel && grade && academic && major && department && petition_pic.length!=0 && family_pic.length!=0 && resume_pic.length!=0 && statement_pic.length!=0){
+        // petition_pic.forEach((item, index) => {
+        //   console.log(item)
+        //   uni.uploadFile({
+        //     url: 'http://localhost:3000/user/petition',
+        //     filePath: item,
+        //     name: 'images' + index,
+        //     success: function (res) {
+        //       console.log(res)
+        //     }
+        //   })
         // })
 
         let user = {
@@ -417,17 +385,30 @@
           major,
           department
         }
-        // info({user}).then(res=>{
-
-        // })
-        // }else{
-        //   uni.showToast({
-        //     title: '信息填写不完整！!',
-        //     icon:'none',
-        //     duration: 2000
-        //   })
-        //  }
-        //console.log(this.info)
+        info({user}).then(res=>{
+          findUserByOid({openid:uni.getStorageSync('openid')}).then(r=>{
+            console.log(r)
+            console.log(r.data.user)
+            uni.setStorageSync('userInfo', r.data.user)
+            console.log(uni.getStorageSync('userInfo'))
+            uni.showToast({
+              title: '已提交',
+              duration: 2000,
+              success:function(){
+                uni.navigateTo({
+                  url:'/pages/profile/info/info'
+                })
+              }
+            })
+          })
+        })
+        }else{
+          uni.showToast({
+            title: '信息填写不完整！!',
+            icon:'none',
+            duration: 2000
+          })
+         }
       }
     },
   }

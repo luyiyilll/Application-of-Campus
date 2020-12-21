@@ -30,9 +30,18 @@
           if (res.errMsg == 'login:ok') {
             let code = res.code
             getOpenid({ code }).then(response => {
-              uni.setStorageSync('openid', response.data.openid ? response.data.openid : '')
-              uni.setStorageSync('userInfo', response.data.info !== '' ? response.data.info : '')
+              if(response.data.openid){
+                uni.setStorageSync('openid', response.data.openid)
+              }
+              if(response.data.openid!=""){
+                uni.setStorageSync('userInfo', response.data.info)
+              }
+              console.log(uni.getStorageSync('openid'))
               that.getSetting();
+            }).catch(e=>{
+              uni.showLoading({
+                title: '登录失败'
+              })
             })
           } else {
             uni.showLoading({
@@ -71,6 +80,7 @@
               gender: infoRes.userInfo.gender == 1 ? '男' : '女',
               avatarurl: infoRes.userInfo.avatarUrl,
             }
+            
             uni.setStorageSync('userInfo', data)
             addUser(data).then(res => {
               uni.showLoading({

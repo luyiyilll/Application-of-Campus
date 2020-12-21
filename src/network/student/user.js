@@ -9,6 +9,15 @@ export function addUser(data) {
   })
 }
 
+/*根据openid获取用户信息*/
+export function findUserByOid(data){
+  return request({
+    url:'/user/user/id',
+    method:'post',
+    data:data
+  })
+}
+
 /*获取年级*/
 export function getGrade() {
   return request({

@@ -51,9 +51,11 @@ export default {
        user:{}
     }
   },
+  onShow(){
+    this.user=uni.getStorageSync('userInfo')
+  },
   onLoad(){
     this.user=uni.getStorageSync('userInfo')
-    console.log(this.user)
   },
   methods: {
     backNav(){
