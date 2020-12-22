@@ -27,3 +27,7 @@
 .margin-right {
   margin-right: 10px;
 }
+
+.flex{
+  display: flex;
+}

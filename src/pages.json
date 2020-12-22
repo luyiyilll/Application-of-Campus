@@ -1,15 +1,22 @@
 {
   "pages": [
     {
-      "path": "pages/login/login",
+      "path": "pages/profile/discuss/discuss",
       "style": {
-        "navigationBarTitleText": "登录"
+        "navigationBarTitleText": "讨论"
       }
     },
     {
       "path": "pages/profile/profile",
       "style": {
-        "navigationBarTitleText": "个人中心"
+        "navigationBarTitleText": "个人中心",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "登录"
       }
     },
     {
@@ -93,8 +100,8 @@
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "校园党建平台",
     "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "校园党建平台",
     "backgroundColor": "#F8F8F8"
   }
 }

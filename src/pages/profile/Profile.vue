@@ -2,10 +2,10 @@
   <view>
     <!-- style="background:url('../../static/bg.jpg'); background-size: 100% 100%;" -->
     <view class="banner" style="background:url('../../static/profile_banner.png'); background-size: 100% 100%;" @click="toUserInfo">
-      <view>
+      <view class="margin-top">
         <img :src="user.avatar" alt="" class="head-img">
       </view>
-      <view>
+      <view class="margin-top">
         <view class="name">{{user.nick_name}}</view>
         <view class="identity">{{user.identity?user.identity:'群众'}}</view>
       </view>
@@ -104,7 +104,7 @@
 <style scoped>
   .banner {
     width: 100%;
-    height: 160px;
+    height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -128,7 +128,7 @@
   }
   .nav-tab{
     position: relative;
-    top:-20px;
+    top:-40px;
   }
   .nav-tab-content{
     padding:10px 5px 5px 5px;
