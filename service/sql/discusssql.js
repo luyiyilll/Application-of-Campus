@@ -1,7 +1,7 @@
 const config = require('./sqlConfig')
 const mysql = require('mysql');
 
-function connect() {
+function connect () {
   return mysql.createConnection({
     host: config.host,
     user: config.user,
@@ -11,11 +11,11 @@ function connect() {
   })
 }
 
-function findDiscussByOid(openid) {
+function findDiscussByOid (openid) {
   const conn = connect();
   return new Promise((resolve, reject) => {
     try {
-      conn.query("select * from tb_discuss where openid = '" + openid + "'", function (err, results) {
+      conn.query("select * from tb_discuss where publisher = '" + openid + "'", function (err, results) {
         if (err) {
           reject(err)
         } else {
