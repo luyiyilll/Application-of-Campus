@@ -387,10 +387,10 @@
         }
         info({user}).then(res=>{
           findUserByOid({openid:uni.getStorageSync('openid')}).then(r=>{
-            console.log(r)
-            console.log(r.data.user)
+         
+      
             uni.setStorageSync('userInfo', r.data.user)
-            console.log(uni.getStorageSync('userInfo'))
+         
             uni.showToast({
               title: '已提交',
               duration: 2000,

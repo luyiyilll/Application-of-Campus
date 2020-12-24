@@ -21,9 +21,10 @@
         </view>
       </view>
     </view>
-  <view>
+  </view>
 </template>
 <script>
+import {discussInfo} from '../../../network/discuss'
 export default {
   data(){
     return{
@@ -38,10 +39,14 @@ export default {
   },
   onLoad(){
     this.user=uni.getStorageSync('userInfo')
+    console.log(uni.getStorageSync('openid'))
+    discussInfo({openid:uni.getStorageSync('openid')}).then(res=>{
+      console.log(1111)
+    })
   },
   methods:{
     like(){
-      console.log(1)
+
       this.flag=!this.flag
     }
   }

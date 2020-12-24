@@ -33,7 +33,7 @@
               if(response.data.openid!=""){
                 uni.setStorageSync('userInfo', response.data.info)
               }
-              console.log(uni.getStorageSync('openid'))
+      
               that.getSetting();
             }).catch(e=>{
               uni.showLoading({

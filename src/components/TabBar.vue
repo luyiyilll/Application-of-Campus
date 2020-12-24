@@ -63,7 +63,7 @@
 <script>
   import { mapState, mapMutations } from 'vuex'
   import { getOpenid } from '../network/login';
-  import {addDiscuss} from '../network/discuss/discuss'
+  import {addDiscuss} from '../network/discuss'
   export default {
     name: "TabBar",
     data() {
@@ -87,13 +87,13 @@
             url: '../' + this.PageCur + "/" + this.PageCur
           })
         }
-        console.log(e)
+
       },
       addArticle() {
         this.modal = true;
       },
       cancel() {
-        console.log(this.discuss)
+
         this.modal = false;
       },
       confirm() {
@@ -104,9 +104,7 @@
           postdate:date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate(),
           publisher:uni.getStorageSync('openid')
         }
-      console.log('openid',uni.getStorageSync('openid'))
-        console.log(uni.getStorageSync('userInfo'))
-        console.log(article)
+
         addDiscuss(article).then(res=>{
           this.modal = false;
         }).catch(e=>{

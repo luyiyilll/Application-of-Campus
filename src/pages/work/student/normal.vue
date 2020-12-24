@@ -64,7 +64,7 @@
       /*提交信息*/
       submitBtn(){
         
-        console.log(this.info)
+       //(this.info)
       }
     }
   }

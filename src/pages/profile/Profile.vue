@@ -61,11 +61,11 @@
     },
     onShow(){
       this.user=uni.getStorageSync('userInfo')
-      console.log('show',this.user)
+
     },
     onLoad() { 
       this.user=uni.getStorageSync('userInfo')
-      console.log(this.user)
+    
     },
     components: {
       TabBar

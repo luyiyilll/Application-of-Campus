@@ -192,7 +192,7 @@
         this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60;
       },
       enterContent(index){
-        console.log(index)
+
         uni.navigateTo({
           url: '/pages/index/content/content?id='+index+'&type='+this.TabCur
         });

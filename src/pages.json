@@ -1,9 +1,9 @@
 {
   "pages": [
     {
-      "path": "pages/profile/discuss/discuss",
+      "path": "pages/index/content/content",
       "style": {
-        "navigationBarTitleText": "讨论"
+        "navigationBarTitleText": "详情"
       }
     },
     {
@@ -13,6 +13,13 @@
         "navigationStyle": "custom"
       }
     },
+    {
+      "path": "pages/profile/discuss/discuss",
+      "style": {
+        "navigationBarTitleText": "讨论"
+      }
+    },
+  
     {
       "path": "pages/login/login",
       "style": {
@@ -43,12 +50,7 @@
         "navigationBarTitleText": "我的信息"
       }
     },
-    {
-      "path": "pages/index/content/content",
-      "style": {
-        "navigationBarTitleText": "详情"
-      }
-    },
+  
     {
       "path": "pages/profile/collection/collection",
       "style": {
