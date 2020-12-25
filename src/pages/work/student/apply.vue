@@ -1,5 +1,5 @@
 <template>
-  <view class="border-top">
+  <view class="border-top" v-if="user.is_apply==0">
     <view class="info-title padding">填写基本信息</view>
     <view class="cu-form-group ">
       <view class="title">姓名</view>
@@ -134,6 +134,88 @@
       <button class="cu-btn shadow-blur lg" @click="submitBtn">提交</button>
     </view>
   </view>
+  <!--没有提交信息-->
+  <view v-else>
+    <view class="form">
+      <view class="cu-form-group margin-top-sm">
+        <view class="title">姓名</view>
+        <input name="name" class="text-right" :value="user.realname" disabled />
+      </view>
+      <view class="cu-form-group">
+        <view class="title">出生日期</view>
+        <input name="ID" class="text-right" :value="user.birthday" disabled />
+      </view>
+      <view class="cu-form-group">
+        <view class="title">性别</view>
+        <input name="sex" class="text-right" :value="user.gender" disabled />
+      </view>
+      <view class="cu-form-group">
+        <view class="title">身份证号码</view>
+        <input name="ID" class="text-right" :value="user.IDcode" disabled />
+      </view>
+      <view class="cu-form-group">
+        <view class="title">手机号码</view>
+        <input name="tel" class="text-right" :value="user.tel" disabled />
+      </view>
+      <view class="cu-form-group">
+        <view class="title">年级</view>
+        <input name="grade" class="text-right" :value="user.grade" disabled />
+        <!-- <text class='cuIcon-locationfill text-orange'></text> -->
+      </view>
+      <view class="cu-form-group">
+        <view class="title">学院</view>
+        <input name="acdemic" class="text-right" :value="user.academic" disabled />
+      </view>
+      <view class="cu-form-group">
+        <view class="title">专业</view>
+        <input name="major" class="text-right" :value="user.major" disabled />
+      </view>
+      <view class="cu-form-group">
+        <view class="title">所属支部</view>
+        <input name="major" class="text-right" :value="user.department" disabled />
+      </view>
+
+      <view class="info-title ">入党申请书材料</view>
+      <view class="cu-form-group">
+        <view class="grid margin-top-sm col-4 grid-square flex-sub">
+          <view class="bg-img" v-for="(item,index) in info.petition_pic" :key="index" @tap="ViewImage(0,$event)"
+            :data-url="info.petition_pic[index]">
+            <image :src="info.petition_pic[index]" mode="aspectFill"></image>
+          </view>
+        </view>
+      </view>
+
+    <view class="info-title ">家庭成员及主要社会关系</view>
+    <view class="cu-form-group">
+      <view class="grid margin-top-sm col-4 grid-square flex-sub">
+        <view class="bg-img" v-for="(item,index) in info.family_pic" :key="index" @tap="ViewImage(1,$event)"
+          :data-url="info.family_pic[index]">
+          <image :src="info.family_pic[index]" mode="aspectFill"></image>
+        </view>
+      </view>
+    </view>
+
+    <view class="info-title ">个人履历材料</view>
+    <view class="cu-form-group">
+      <view class="grid margin-top-sm col-4 grid-square flex-sub">
+        <view class="bg-img" v-for="(item,index) in info.resume_pic" :key="index" @tap="ViewImage(2,$event)"
+          :data-url="info.resume_pic[index]">
+          <image :src="info.resume_pic[index]" mode="aspectFill"></image>
+        </view>
+      </view>
+    </view>
+
+    <view class="info-title ">个人自传材料</view>
+    <view class="cu-form-group">
+      <view class="grid margin-top-sm col-4 grid-square flex-sub">
+        <view class="bg-img" v-for="(item,index) in info.statement_pic" :key="index" @tap="ViewImage(3,$event)"
+          :data-url="info.statement_pic[index]">
+          <image :src="info.statement_pic[index]" mode="aspectFill"></image>
+        </view>
+      </view>
+    </view>
+        </view>
+  </view>
 </template>
 <script>
   import { getGrade, info, findUserByOid } from '../../../network/student/user'
@@ -169,13 +251,19 @@
           '计信第二支部'
         ],
         indexd: -1,
-
         indeximg: -1,
 
       }
     },
+    onShow(){
+      this.user = uni.getStorageSync('userInfo')
+      console.log(this.user)
+      this.getAllGrade()
+      this.getAllAcademic()
+    },
     onLoad() {
       this.user = uni.getStorageSync('userInfo')
+      console.log(this.user)
       this.getAllGrade()
       this.getAllAcademic()
     },
@@ -387,17 +475,12 @@
         }
         info({user}).then(res=>{
           findUserByOid({openid:uni.getStorageSync('openid')}).then(r=>{
-         
-      
             uni.setStorageSync('userInfo', r.data.user)
-         
             uni.showToast({
               title: '已提交',
               duration: 2000,
               success:function(){
-                uni.navigateTo({
-                  url:'/pages/profile/info/info'
-                })
+                this.onShow();
               }
             })
           })

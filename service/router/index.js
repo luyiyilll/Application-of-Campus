@@ -1,8 +1,10 @@
 const express = require('express')
 const boom = require('boom');
 const userRouter = require('./user')
-const academicRouter=require('./academic')
-const discussRouter=require('./discuss')
+const academicRouter = require('./academic')
+const discussRouter = require('./discuss')
+const noticeRouter = require('./notice')
+const likeRouter = require('./like')
 const { COOE_ERROR } = require('../utils/constant')
 
 const router = express.Router()
@@ -15,9 +17,13 @@ router.get('/', function (req, res) {
 /*用户router*/
 router.use('/user', userRouter)
 /*学院router*/
-router.use('/academic',academicRouter)
+router.use('/academic', academicRouter)
+/*讨论router*/
+router.use('/discuss', discussRouter)
 /*文章、通知、公示名单router*/
-router.use('/discuss',discussRouter)
+router.use('/notice', noticeRouter)
+/*点赞Router*/
+router.use('/like', likeRouter)
 
 /*集中异常处理404*/
 router.use((req, res, next) => {

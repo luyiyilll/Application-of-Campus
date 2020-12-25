@@ -1,5 +1,5 @@
 <template>
-  <view class="container">
+  <view class="container border-top">
     <view class="title margin-bottom">{{content.title}}</view>
     <view class="text-gray time">
       {{content.publishtime}}
@@ -23,6 +23,7 @@
   </view>
 </template>
 <script>
+import  {getContentById} from '../../../network/notice'
   export default {
     data() {
       return {
@@ -38,14 +39,20 @@
       }
     },
     onLoad(e) {
+      console.log(e)
       let id = e.id;
       let type = e.type;
+      this.getContent(id)
     },
     methods: {
       toCollect() {
         console.log(this.isActive)
         this.isActive = !this.isActive
-
+      },
+      getContent(id){
+        getContentById({id}).then(res=>{
+console.log(res)
+        })
       }
     },
   }

@@ -22,8 +22,10 @@
         </view>
       </view>
     </view>
-     <!-- <view class="nav-tab">
+    
+     <view class="nav-tab margin-top">
       <view class="nav-tab-content">
+        <view class="nav-title">其他活动</view>
         <view class="cu-list grid col-4 no-border">
           <view class="cu-item" v-for="(item,index) in navListB" :key="index" @click="navigateTo(index)">
             <view>
@@ -33,7 +35,7 @@
           </view>
         </view>
       </view>
-    </view> -->
+    </view>
 
     <view class="divider"></view>
     <tab-bar></tab-bar>
@@ -51,11 +53,12 @@
           { title: '我的收藏', icon: '../../static/colection.png' },
           { title: '最近浏览', icon: '../../static/records.png' },
         ],
-        // navListB:[
-        //   { title: '基本信息', icon: '../../static/article.png' },
-        //   { title: '最近浏览', icon: '../../static/records.png' },
-
-        // ],
+        navListB:[
+          { title: '基本信息', icon: '../../static/article.png' },
+          { title: '最近浏览', icon: '../../static/records.png' },
+          { title: '基本信息', icon: '../../static/article.png' },
+          { title: '最近浏览', icon: '../../static/records.png' },
+        ],
         user:{}
       };
     },
@@ -145,5 +148,12 @@
   .divider {
     height: 60px;
     width: 100%；
+  }
+
+  .nav-title{
+    font-size:16px;
+    font-weight: bold;
+    padding: 5px 5px 10px 25px;
+    border-bottom: 1px solid rgb(230,230,230);
   }
 </style>

@@ -17,15 +17,16 @@ router.post('/openid', async function (req, res, next) {
   await axios.get('http://api.weixin.qq.com/sns/jscode2session?appid=' + config.appId + '&secret=' + config.appScrect + '&js_code=' + req.body.code + '&grant_type=authorization_code').then(response => {
     openid = response.data.openid
     querySql("select * from tb_user where openid='" + openid + "'").then(r => {
-      if (r == "") {
+      if (r.length == 0) {
         res.json({
           openid: openid,
           code: 1,
-          msg: '登录成功'
+          msg: '获取openid成功'
         })
       } else {
         r[0].identity = getIdentity(r[0].identity);
         let info = {
+          openid: openid,
           nick_name: r[0].nick_name,
           avatar: r[0].avatar,
           realname: r[0].realname,
@@ -39,6 +40,7 @@ router.post('/openid', async function (req, res, next) {
           department: r[0].department,
           is_agreen: r[0].is_agreen,
           identity: r[0].identity,
+          is_apply: r[0].isapply,
           is_check: r[0].is_check,
           is_pass: r[0].is_pass,
           petition_pic: r[0].petition_pic,
@@ -68,7 +70,7 @@ router.post('/openid', async function (req, res, next) {
 
 /*注册用户*/
 router.post('/adduser', function (req, res) {
-  let sql = "insert into tb_user(openid,nick_name,avatar,gender,identity) values('" + req.body.openid + "','" + req.body.nick_name + "','" + req.body.avatarurl + "','" + req.body.gender + "', 0)"
+  let sql = "insert into tb_user(openid,nick_name,avatar,gender,identity,isapply,ischeck,ispass) values('" + req.body.openid + "','" + req.body.nick_name + "','" + req.body.avatarurl + "','" + req.body.gender + "', 0,0,0,0)"
   querySql(sql).then(response => {
     res.json({
       code: 1,
@@ -101,7 +103,7 @@ router.get('/grade', function (req, res) {
 /*上传用户信息*/
 router.post('/info', function (req, res) {
   let user = req.body.user;
-  let sql = "update tb_user set realname='" + user.realname + "',gender='" + user.gender + "',birthday='" + user.birthday + "',IDcode='" + user.IDcode + "',tel='" + user.tel + "',grade='" + user.grade + "',academic='" + user.academic + "',major='" + user.major + "',department='" + user.department + "',identity=1";
+  let sql = "update tb_user set realname='" + user.realname + "',gender='" + user.gender + "',birthday='" + user.birthday + "',IDcode='" + user.IDcode + "',tel='" + user.tel + "',grade='" + user.grade + "',academic='" + user.academic + "',major='" + user.major + "',department='" + user.department + "',identity=1, isapply=1";
   querySql(sql).then(response => {
     res.json({
       code: 1,

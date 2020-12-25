@@ -107,9 +107,13 @@
 
         addDiscuss(article).then(res=>{
           this.modal = false;
+          uni.showToast({
+            title:'发表成功',
+            icon:'none'
+          })
         }).catch(e=>{
           uni.showToast({
-            title:'发布讨论失败',
+            title:'发表失败',
             icon:'none'
           })
         })

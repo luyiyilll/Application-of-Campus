@@ -30,8 +30,12 @@
               if(response.data.openid){
                 uni.setStorageSync('openid', response.data.openid)
               }
-              if(response.data.openid!=""){
+              if(response.data.info.length!=0){
+                uni.setStorageSync('openid', response.data.info.openid)
                 uni.setStorageSync('userInfo', response.data.info)
+                uni.redirectTo({
+                  url: '/pages/index/index',
+                });
               }
       
               that.getSetting();

@@ -18,38 +18,61 @@
       <view class="bottom">
         <view class="text-red left"><span class="text-orange text-xs cuIcon-hotfill"></span>热度{{item.views}}℃</view>
         <view class="right">
-          <view class="like-margin text-red" @click="like"> <span class="text-sm"
-              :class="!flag?'cuIcon-like':'cuIcon-likefill'"></span></view>
-          <view><span class="text-sm cuIcon-comment text-green"></span></view>
+          <view class="like-margin text-red" @click="like(item.id)" :data-cur="index"> <span class="text-sm"
+              :class="item.islike==1?'cuIcon-likefill':'cuIcon-like'"></span></view>
+          <!-- <view><span class="text-sm cuIcon-comment text-green"></span></view> -->
         </view>
+      </view>
+      <view class="uni-form-item uni-column">
+          <input class="uni-input" @focus="getKeyBoard"  placeholder="评论" />
       </view>
     </view>
   </view>
 </template>
 <script>
-  import { discussInfo } from '../../../network/discuss'
+  import { discussInfo } from '../../../network/discuss';
+  import  {likeAction} from '../../../network/like'
   export default {
     data() {
       return {
         user: '',
         flag: false,
-        disList: [
-          { postdate: '2020-1-1', title: '讨论主题', content: '内容内容内容', views: 13 },
-          { postdate: '2020-9-2', title: '测试', content: '今天几点了 两点二十', views: 19 },
-          { postdate: '2020-12-5', title: '今天吃饭了吗', content: '吃饭了吗 吃了吧 对的', views: 132 }
-        ]
+        curIndex:0,
+        disList: [],
+        comment:''
       }
     },
     onLoad() {
       this.user = uni.getStorageSync('userInfo')
-      discussInfo({ openid: uni.getStorageSync('openid') }).then(res => {
-        this.disList = res.data.data
-      })
+      this.getDiscussInfo();
     },
     methods: {
-      like() {
-
-        this.flag = !this.flag
+      getDiscussId(id){
+        console.log(id)
+      },
+      getKeyBoard(){
+        uni.getSelectedTextRange({
+          success: res => {
+            console.log('getSelectedTextRange res', res.start, res.end)
+          }
+        })
+      },
+      getDiscussInfo(){
+        discussInfo({ openid: uni.getStorageSync('openid') }).then(res => {
+          this.disList = res.data.data
+        })
+      },
+      like(id) {
+        
+        let o={
+          id,
+          openid: uni.getStorageSync('openid')
+        }
+        console.log(o)
+        likeAction(o).then(async res=>{
+          console.log(res)
+          await this.getDiscussInfo();
+        })
       }
     }
   }
@@ -84,9 +107,10 @@
   }
 
   .flex {
+    margin-left:5px;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+
   }
 
   .nick-name {
@@ -114,5 +138,15 @@
 
   .text-sm {
     font-size: 20px;
+  }
+
+  .uni-input{
+    width: 90%;
+    margin: 5px auto 10px auto;
+    height: 32px;
+    border: 1px solid rgb(240,240,240);
+    border-radius: 3px;
+    background: rgb(240,240,240);
+    padding-left:5px;
   }
 </style>
