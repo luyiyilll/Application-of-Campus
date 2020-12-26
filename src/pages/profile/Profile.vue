@@ -1,7 +1,8 @@
 <template>
   <view>
     <!-- style="background:url('../../static/bg.jpg'); background-size: 100% 100%;" -->
-    <view class="banner" style="background:url('../../static/profile_banner.png'); background-size: 100% 100%;" @click="toUserInfo">
+    <view class="banner" style="background:url('../../static/profile_banner.png'); background-size: 100% 100%;"
+      @click="toUserInfo">
       <view class="margin-top">
         <img :src="user.avatar" alt="" class="head-img">
       </view>
@@ -22,12 +23,12 @@
         </view>
       </view>
     </view>
-    
-     <view class="nav-tab margin-top">
+
+    <view class="nav-tab margin-top">
       <view class="nav-tab-content">
         <view class="nav-title">其他活动</view>
         <view class="cu-list grid col-4 no-border">
-          <view class="cu-item" v-for="(item,index) in navListB" :key="index" @click="navigateTo(index)">
+          <view class="cu-item" v-for="(item,index) in navListB" :key="index" @click="navigateToB(index)">
             <view>
               <img :src="item.icon" alt="" class="nav-icon">
             </view>
@@ -47,28 +48,28 @@
   export default {
     data() {
       return {
-        navList: [        
+        navList: [
           { title: '我的申请', icon: '../../static/apply.png' },
           { title: '我的讨论', icon: '../../static/article.png' },
           { title: '我的收藏', icon: '../../static/colection.png' },
           { title: '最近浏览', icon: '../../static/records.png' },
         ],
-        navListB:[
-          { title: '基本信息', icon: '../../static/article.png' },
+        navListB: [
+          { title: '讨论广场', icon: '../../static/discuss_playground.png' },
           { title: '最近浏览', icon: '../../static/records.png' },
           { title: '基本信息', icon: '../../static/article.png' },
           { title: '最近浏览', icon: '../../static/records.png' },
         ],
-        user:{}
+        user: {}
       };
     },
-    onShow(){
-      this.user=uni.getStorageSync('userInfo')
+    onShow() {
+      this.user = uni.getStorageSync('userInfo')
 
     },
-    onLoad() { 
-      this.user=uni.getStorageSync('userInfo')
-    
+    onLoad() {
+      this.user = uni.getStorageSync('userInfo')
+
     },
     components: {
       TabBar
@@ -82,7 +83,7 @@
 
         } else if (index == 1) {
           uni.navigateTo({
-            url: '/pages/profile/discuss/discuss'
+            url: '/pages/profile/discuss/discuss?type=0'
           });
 
         } else if (index == 2) {
@@ -95,10 +96,17 @@
           });
         }
       },
-      toUserInfo(){
+      toUserInfo() {
         uni.navigateTo({
           url: '/pages/profile/info/info'
         });
+      },
+      navigateToB(index) {
+        if (index == 0) {
+          uni.navigateTo({
+            url: '/pages/profile/discuss/discuss?type=1'
+          })
+        }
       }
     },
   };
@@ -129,17 +137,20 @@
     line-height: 30px;
     padding-left: 20px;
   }
-  .nav-tab{
+
+  .nav-tab {
     position: relative;
-    top:-40px;
+    top: -40px;
   }
-  .nav-tab-content{
-    padding:10px 5px 5px 5px;
-    background:#fff;
-    width:95%;
-    margin:0 auto;
-    border-radius:10px 10px 0 0;
+
+  .nav-tab-content {
+    padding: 10px 5px 5px 5px;
+    background: #fff;
+    width: 95%;
+    margin: 0 auto;
+    border-radius: 10px;
   }
+
   .nav-icon {
     width: 25px;
     height: 25px;
@@ -150,10 +161,10 @@
     width: 100%；
   }
 
-  .nav-title{
-    font-size:16px;
+  .nav-title {
+    font-size: 16px;
     font-weight: bold;
     padding: 5px 5px 10px 25px;
-    border-bottom: 1px solid rgb(230,230,230);
+    border-bottom: 1px solid rgb(230, 230, 230);
   }
 </style>

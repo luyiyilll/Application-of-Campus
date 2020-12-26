@@ -1,7 +1,7 @@
 const config = require('./sqlConfig')
 const mysql = require('mysql');
 
-function connect() {
+function connect () {
   return mysql.createConnection({
     host: config.host,
     user: config.user,
@@ -12,7 +12,7 @@ function connect() {
 }
 
 /*根据类型获取通知、会议、公示列表*/
-function getList(type) {
+function getList (type) {
   const conn = connect();
   return new Promise((resolve, reject) => {
     try {
@@ -32,7 +32,7 @@ function getList(type) {
 }
 
 /*根据id获取内容*/
-function getContentById(id) {
+function getContentById (id) {
   const conn = connect();
   return new Promise((resolve, reject) => {
     try {

@@ -1,15 +1,15 @@
 {
   "pages": [
     {
-      "path": "pages/profile/discuss/discuss",
-      "style": {
-        "navigationBarTitleText": "讨论"
-      }
-    },
-    {
       "path": "pages/login/login",
       "style": {
         "navigationBarTitleText": "登录"
+      }
+    },
+    {
+      "path": "pages/profile/discuss/discuss",
+      "style": {
+        "navigationBarTitleText": "讨论"
       }
     },
     {

@@ -12,10 +12,15 @@
     </scroll-view>
     <view class="content-list">
       <view class="content-item" v-for="(item,index) in contentList" :key="index" @click="enterContent(item.id)">
-        <view class="content-text">
-          <view class="bold">{{item.title}}</view>
-          <view class="bold text-sm text-gray margin-top">{{item.postdate}}</view>
-          <view class="text-cut content-des text-gray text-sm">{{item.desc}}</view>
+        <view class="content-item-box">
+          <view class="content-text">
+            <view class="bold ">【<text class="title">{{item.title}}</text>】</view>
+            <view class="text-cut content-des text-split text-gray">{{item.desc}}</view>
+            <view class="time-box">
+              <text class="text-sm text-gray">{{item.postdate}}</text>
+            </view>
+          </view>
+
         </view>
       </view>
     </view>
@@ -26,7 +31,7 @@
 
 <script>
   import TabBar from '../../components/TabBar.vue';
-  import {list} from '../../network/notice'
+  import { list } from '../../network/notice'
   export default {
     data() {
       return {
@@ -55,9 +60,9 @@
           { title: "公示", icon: "" }
         ],
         contentList: [],
-        noticeList:[],
-        meetingList:[],
-        announceList:[]
+        noticeList: [],
+        meetingList: [],
+        announceList: []
       };
     },
     components: {
@@ -72,11 +77,11 @@
       tabSelect(e) {
         this.TabCur = e.currentTarget.dataset.id;
         if (this.TabCur == 0) {
-          this.contentList=this.noticeList;
+          this.contentList = this.noticeList;
         } else if (this.TabCur == 1) {
-          this.contentList=this.meetingList;
+          this.contentList = this.meetingList;
         } else {
-          this.contentList=this.announceList;
+          this.contentList = this.announceList;
         }
         this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60;
       },
@@ -87,26 +92,26 @@
       },
 
       /*通知列表*/
-      getNoticeList(){
+      getNoticeList() {
         console.log()
-        list({type:0}).then(res=>{
-          this.noticeList=res.data.data;
-          this.contentList=this.noticeList;
+        list({ type: 0 }).then(res => {
+          this.noticeList = res.data.data;
+          this.contentList = this.noticeList;
           console.log(res.data.data)
         })
       },
 
       /*会议列表*/
-      getMeetingList(){
-        list({type:1}).then(res=>{
-          this.meetingList=res.data.data
+      getMeetingList() {
+        list({ type: 1 }).then(res => {
+          this.meetingList = res.data.data
         })
       },
 
       /*公示名单列表*/
-      getAnnounceList(){
-         list({type:2}).then(res=>{
-            this.announceList=res.data.data
+      getAnnounceList() {
+        list({ type: 2 }).then(res => {
+          this.announceList = res.data.data
         })
       }
     }
@@ -127,43 +132,44 @@
   }
 
   .content-item {
+    width: 95%;
     border-bottom: 1px solid rgb(240, 240, 240);
     padding: 8px;
   }
 
+  .content-item-box {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
   .content-text {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-self: start;
     margin: 5px 8px;
-    text-overflow: ellipsis;
+
   }
 
   .content-des {
     margin: 8px 0 4px 0;
     width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  .time {
-    flex: 1;
-    align-items: flex-end;
+  .title {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  .view-tag {
+  .time-box {
+    width: 100%;
     display: flex;
     justify-content: flex-end;
-    align-items: flex-end;
-    line-height: 100%;
-    margin: 5px;
-  }
-
-  .text-item {
-    width: 25px;
-
-  }
-
-  .text-height {
-    line-height: 16px;
-
   }
 </style>

@@ -1,14 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const { querySql } = require('../sql/index');
-const { findDiscussByOid } = require('../sql/discusssql');
+const { getFromatTime } = require('../utils/constant');
 const { findUserViews } = require('../sql/disscuss_views')
+const { getAllDiscussList } = require("../sql/discusssql")
 
+/*发表讨论*/
 router.post('/discuss', function (req, res) {
   let sql = "insert into tb_discuss(title,postdate,content,publisher) values('" + req.body.title + "','" + req.body.postdate + "','" + req.body.content + "','" + req.body.publisher + "')"
   querySql(sql).then(response => {
     querySql("select id from tb_discuss order by postdate desc limit 1").then(reqid => {
-      querySql("insert into tb_discuss_likes(discussid,user,islike) values('" + reqid[0].id + "','" + req.body.publisher + "',0)").then(r => {
+      querySql("insert into tb_likes(otherid,user,islike,type) values('" + reqid[0].id + "','" + req.body.publisher + "',0,0)").then(r => {
         res.json({
           code: 1,
           msg: '发表成功'
@@ -18,23 +20,16 @@ router.post('/discuss', function (req, res) {
   })
 })
 
+/*根据用户id获取讨论列表*/
 router.post('/list/id', function (req, res) {
   findUserViews(req.body.openid).then(r => {
     let result = []
     r.forEach(item => {
-      let d = item.postdate;
-      let year = d.getUTCFullYear();
-      let month = d.getUTCMonth();
-      let day = d.getUTCDate();
-      let hours = d.getUTCHours() >= 10 ? d.getUTCHours() : ("0" + d.getUTCHours());
-      let min = d.getUTCMinutes() >= 10 ? d.getUTCMinutes() : ("0" + d.getUTCMinutes());
-      let secends = d.getUTCSeconds() >= 10 ? d.getUTCSeconds() : ("0" + d.getUTCSeconds());
-      let date = year + "-" + month + "-" + day + "  " + hours + ":" + min + ":" + secends
       let o = {
         id: item.id,
         title: item.title,
         content: item.content,
-        postdate: date,
+        postdate: getFromatTime(item.postdate),
         views: item.views,
         islike: item.islike
       }
@@ -48,6 +43,15 @@ router.post('/list/id', function (req, res) {
   })
 })
 
-
+/*获取全部用户讨论列表*/
+router.get('/all', function (req, res) {
+  getAllDiscussList().then(response => {
+    res.json({
+      code: 1,
+      msg: '查询成功',
+      data: response
+    })
+  })
+})
 
 module.exports = router

@@ -1,7 +1,7 @@
 const config = require('./sqlConfig')
 const mysql = require('mysql');
 
-function connect() {
+function connect () {
   return mysql.createConnection({
     host: config.host,
     user: config.user,
@@ -11,20 +11,20 @@ function connect() {
   })
 }
 
-function likeAction(id, openid) {
+function likeAction (id, openid) {
   const conn = connect();
   return new Promise((resolve, reject) => {
     try {
-      conn.query("select islike from tb_discuss_likes where discussid='" + id + "' and `user`='" + openid + "'", function (err, results) {
+      conn.query("select islike from tb_likes where otherid='" + id + "' and `user`='" + openid + "' and type=0", function (err, results) {
         if (err) {
           reject(err)
         } else {
           if (results[0].islike == 0) {
-            conn.query("update tb_discuss_likes set islike=1 where discussid='" + id + "' and `user`='" + openid + "'", function (e, res) {
+            conn.query("update tb_likes set islike=1 where otherid='" + id + "' and `user`='" + openid + "' and type=0", function (e, res) {
               resolve(res)
             })
           } else {
-            conn.query("update tb_discuss_likes set islike=0 where discussid='" + id + "' and `user`='" + openid + "'", function (e, res) {
+            conn.query("update tb_likes set islike=0 where otherid='" + id + "' and `user`='" + openid + "' and type=0", function (e, res) {
               resolve(res)
             })
           }

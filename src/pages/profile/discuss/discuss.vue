@@ -5,9 +5,9 @@
         style="background:url('../../../static/banner_top.jpg'); background-size: 100% 100%; background-position:top">
       </view>
       <view class="top">
-        <img :src="user.avatar" alt="头像" class="avatar">
+        <img :src="item.avatar" alt="头像" class="avatar">
         <view class="flex">
-          <view class="nick-name">{{user.nick_name}}</view>
+          <view class="nick-name">{{item.nick_name}}</view>
           <view class="text-gray">{{item.postdate}}</view>
         </view>
       </view>
@@ -24,52 +24,65 @@
         </view>
       </view>
       <view class="uni-form-item uni-column">
-          <input class="uni-input" @focus="getKeyBoard"  placeholder="评论" />
+        <input class="uni-input" @focus="getKeyBoard" placeholder="评论" />
       </view>
     </view>
   </view>
 </template>
 <script>
-  import { discussInfo } from '../../../network/discuss';
-  import  {likeAction} from '../../../network/like'
+  import { discussInfo, discussAllInfo } from '../../../network/discuss';
+  import { likeAction } from '../../../network/like'
   export default {
     data() {
       return {
+        type: 0,
         user: '',
         flag: false,
-        curIndex:0,
+        curIndex: 0,
         disList: [],
-        comment:''
+        comment: ''
       }
     },
-    onLoad() {
+    onLoad(e) {
+      this.type = e.type
+      console.log(this.type)
       this.user = uni.getStorageSync('userInfo')
       this.getDiscussInfo();
     },
     methods: {
-      getDiscussId(id){
+      getDiscussId(id) {
         console.log(id)
       },
-      getKeyBoard(){
+      getKeyBoard() {
         uni.getSelectedTextRange({
           success: res => {
             console.log('getSelectedTextRange res', res.start, res.end)
           }
         })
       },
-      getDiscussInfo(){
-        discussInfo({ openid: uni.getStorageSync('openid') }).then(res => {
-          this.disList = res.data.data
-        })
+      getDiscussInfo() {
+        console.log(111)
+        console.log(this.type)
+        if (this.type == 0) {
+          console.log(222)
+          discussInfo({ openid: uni.getStorageSync('openid') }).then(res => {
+            this.disList = res.data.data
+          })
+        } else {
+          console.log(333)
+          discussAllInfo().then(res => {
+            this.disList = res.data.data
+          })
+        }
+
       },
       like(id) {
-        
-        let o={
+        let o = {
           id,
           openid: uni.getStorageSync('openid')
         }
         console.log(o)
-        likeAction(o).then(async res=>{
+        likeAction(o).then(async res => {
           console.log(res)
           await this.getDiscussInfo();
         })
@@ -107,7 +120,7 @@
   }
 
   .flex {
-    margin-left:5px;
+    margin-left: 5px;
     flex-direction: column;
     justify-content: center;
 
@@ -140,13 +153,13 @@
     font-size: 20px;
   }
 
-  .uni-input{
+  .uni-input {
     width: 90%;
     margin: 5px auto 10px auto;
     height: 32px;
-    border: 1px solid rgb(240,240,240);
+    border: 1px solid rgb(240, 240, 240);
     border-radius: 3px;
-    background: rgb(240,240,240);
-    padding-left:5px;
+    background: rgb(240, 240, 240);
+    padding-left: 5px;
   }
 </style>

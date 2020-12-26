@@ -185,36 +185,36 @@
         </view>
       </view>
 
-    <view class="info-title ">家庭成员及主要社会关系</view>
-    <view class="cu-form-group">
-      <view class="grid margin-top-sm col-4 grid-square flex-sub">
-        <view class="bg-img" v-for="(item,index) in info.family_pic" :key="index" @tap="ViewImage(1,$event)"
-          :data-url="info.family_pic[index]">
-          <image :src="info.family_pic[index]" mode="aspectFill"></image>
+      <view class="info-title ">家庭成员及主要社会关系</view>
+      <view class="cu-form-group">
+        <view class="grid margin-top-sm col-4 grid-square flex-sub">
+          <view class="bg-img" v-for="(item,index) in info.family_pic" :key="index" @tap="ViewImage(1,$event)"
+            :data-url="info.family_pic[index]">
+            <image :src="info.family_pic[index]" mode="aspectFill"></image>
+          </view>
         </view>
       </view>
-    </view>
 
-    <view class="info-title ">个人履历材料</view>
-    <view class="cu-form-group">
-      <view class="grid margin-top-sm col-4 grid-square flex-sub">
-        <view class="bg-img" v-for="(item,index) in info.resume_pic" :key="index" @tap="ViewImage(2,$event)"
-          :data-url="info.resume_pic[index]">
-          <image :src="info.resume_pic[index]" mode="aspectFill"></image>
+      <view class="info-title ">个人履历材料</view>
+      <view class="cu-form-group">
+        <view class="grid margin-top-sm col-4 grid-square flex-sub">
+          <view class="bg-img" v-for="(item,index) in info.resume_pic" :key="index" @tap="ViewImage(2,$event)"
+            :data-url="info.resume_pic[index]">
+            <image :src="info.resume_pic[index]" mode="aspectFill"></image>
+          </view>
         </view>
       </view>
-    </view>
 
-    <view class="info-title ">个人自传材料</view>
-    <view class="cu-form-group">
-      <view class="grid margin-top-sm col-4 grid-square flex-sub">
-        <view class="bg-img" v-for="(item,index) in info.statement_pic" :key="index" @tap="ViewImage(3,$event)"
-          :data-url="info.statement_pic[index]">
-          <image :src="info.statement_pic[index]" mode="aspectFill"></image>
+      <view class="info-title ">个人自传材料</view>
+      <view class="cu-form-group">
+        <view class="grid margin-top-sm col-4 grid-square flex-sub">
+          <view class="bg-img" v-for="(item,index) in info.statement_pic" :key="index" @tap="ViewImage(3,$event)"
+            :data-url="info.statement_pic[index]">
+            <image :src="info.statement_pic[index]" mode="aspectFill"></image>
+          </view>
         </view>
       </view>
     </view>
-        </view>
   </view>
 </template>
 <script>
@@ -255,7 +255,7 @@
 
       }
     },
-    onShow(){
+    onShow() {
       this.user = uni.getStorageSync('userInfo')
       console.log(this.user)
       this.getAllGrade()
@@ -449,49 +449,49 @@
         let resume_pic = this.info.resume_pic;
         let statement_pic = this.info.statement_pic;
 
-      if(realname &&  gender && birthday && IDcode && tel && grade && academic && major && department && petition_pic.length!=0 && family_pic.length!=0 && resume_pic.length!=0 && statement_pic.length!=0){
-        // petition_pic.forEach((item, index) => {
-        //   console.log(item)
-        //   uni.uploadFile({
-        //     url: 'http://localhost:3000/user/petition',
-        //     filePath: item,
-        //     name: 'images' + index,
-        //     success: function (res) {
-        //       console.log(res)
-        //     }
-        //   })
-        // })
+        if (realname && gender && birthday && IDcode && tel && grade && academic && major && department && petition_pic.length != 0 && family_pic.length != 0 && resume_pic.length != 0 && statement_pic.length != 0) {
+          // petition_pic.forEach((item, index) => {
+          //   console.log(item)
+          //   uni.uploadFile({
+          //     url: 'http://localhost:3000/user/petition',
+          //     filePath: item,
+          //     name: 'images' + index,
+          //     success: function (res) {
+          //       console.log(res)
+          //     }
+          //   })
+          // })
 
-        let user = {
-          realname,
-          gender,
-          birthday,
-          IDcode,
-          tel,
-          grade,
-          academic,
-          major,
-          department
-        }
-        info({user}).then(res=>{
-          findUserByOid({openid:uni.getStorageSync('openid')}).then(r=>{
-            uni.setStorageSync('userInfo', r.data.user)
-            uni.showToast({
-              title: '已提交',
-              duration: 2000,
-              success:function(){
-                this.onShow();
-              }
+          let user = {
+            realname,
+            gender,
+            birthday,
+            IDcode,
+            tel,
+            grade,
+            academic,
+            major,
+            department
+          }
+          info({ user }).then(res => {
+            findUserByOid({ openid: uni.getStorageSync('openid') }).then(r => {
+              uni.setStorageSync('userInfo', r.data.user)
+              uni.showToast({
+                title: '已提交',
+                duration: 2000,
+                success: function () {
+                  this.onShow();
+                }
+              })
             })
           })
-        })
-        }else{
+        } else {
           uni.showToast({
             title: '信息填写不完整！!',
-            icon:'none',
+            icon: 'none',
             duration: 2000
           })
-         }
+        }
       }
     },
   }
