@@ -1,7 +1,7 @@
 const config = require('./sqlConfig')
 const mysql = require('mysql');
 
-function connect() {
+function connect () {
   return mysql.createConnection({
     host: config.host,
     user: config.user,
@@ -10,7 +10,7 @@ function connect() {
     multipleStatements: true
   })
 }
-function querySql(sql) {
+function querySql (sql) {
   const conn = connect();
   return new Promise((resolve, reject) => {
     try {
@@ -29,26 +29,8 @@ function querySql(sql) {
   })
 }
 
-function findUserByOid(openid) {
-  const conn = connect();
-  return new Promise((resolve, reject) => {
-    try {
-      conn.query("select * from tb_user where openid = '" + openid + "'", function (err, results) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      })
-    } catch (e) {
-      reject(e)
-    } finally {
-      conn.end
-    }
-  })
-}
+
 
 module.exports = {
   querySql,
-  findUserByOid
 }

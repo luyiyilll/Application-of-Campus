@@ -352,11 +352,14 @@
         }
       },
       ChooseImage(index) {
+        let _that = this;
         uni.chooseImage({
           count: 4, //默认9
           sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
           sourceType: ['album'], //从相册选择
           success: (res) => {
+            console.log("-----000", res);
+            this.aaa = res.tempFiles;
             if (index == 0) {
               if (this.info.petition_pic.length != 0) {
                 this.info.petition_pic = this.info.petition_pic.concat(res.tempFilePaths)
@@ -449,49 +452,48 @@
         let resume_pic = this.info.resume_pic;
         let statement_pic = this.info.statement_pic;
 
-        if (realname && gender && birthday && IDcode && tel && grade && academic && major && department && petition_pic.length != 0 && family_pic.length != 0 && resume_pic.length != 0 && statement_pic.length != 0) {
-          // petition_pic.forEach((item, index) => {
-          //   console.log(item)
-          //   uni.uploadFile({
-          //     url: 'http://localhost:3000/user/petition',
-          //     filePath: item,
-          //     name: 'images' + index,
-          //     success: function (res) {
-          //       console.log(res)
-          //     }
-          //   })
-          // })
+        // if (realname && gender && birthday && IDcode && tel && grade && academic && major && department && petition_pic.length != 0 && family_pic.length != 0 && resume_pic.length != 0 && statement_pic.length != 0) {
+        console.log(petition_pic);
 
-          let user = {
-            realname,
-            gender,
-            birthday,
-            IDcode,
-            tel,
-            grade,
-            academic,
-            major,
-            department
-          }
-          info({ user }).then(res => {
-            findUserByOid({ openid: uni.getStorageSync('openid') }).then(r => {
-              uni.setStorageSync('userInfo', r.data.user)
-              uni.showToast({
-                title: '已提交',
-                duration: 2000,
-                success: function () {
-                  this.onShow();
-                }
-              })
+        petition_pic.forEach((item, index) => {
+          console.log(item)
+          uni.uploadFile({
+            url: 'http://localhost:3000/user/petition',
+            filePath: item,
+            name: 'file',
+            header: {
+              "Content-Type": "multipart/form-data",
+              "Authori-zation": uni.getStorageSync("openid")
+            },
+            success: function (res) {
+              console.log(res)
+            }
+          })
+        })
+
+        let user = {
+          openid: uni.getStorageSync('openid'),
+          realname, gender, birthday, IDcode, tel, grade, academic, major, department
+        }
+        info({ user }).then(res => {
+          findUserByOid({ openid: uni.getStorageSync('openid') }).then(r => {
+            uni.setStorageSync('userInfo', r.data.user)
+            uni.showToast({
+              title: '已提交',
+              duration: 2000,
+              success: function () {
+
+              }
             })
           })
-        } else {
-          uni.showToast({
-            title: '信息填写不完整！!',
-            icon: 'none',
-            duration: 2000
-          })
-        }
+        })
+        // } else {
+        //   uni.showToast({
+        //     title: '信息填写不完整！!',
+        //     icon: 'none',
+        //     duration: 2000
+        //   })
+        // }
       }
     },
   }

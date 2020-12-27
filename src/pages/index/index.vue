@@ -11,7 +11,7 @@
         :key="index" @tap="tabSelect" :data-id="index">{{ item.title }}</view>
     </scroll-view>
     <view class="content-list">
-      <view class="content-item" v-for="(item,index) in contentList" :key="index" @click="enterContent(item.id)">
+      <view v-for="(item,index) in contentList" :key="index" @click="enterContent(item.id)">
         <view class="content-item-box">
           <view class="content-text">
             <view class="bold ">【<text class="title">{{item.title}}</text>】</view>
@@ -131,16 +131,8 @@
     margin-bottom: 60px;
   }
 
-  .content-item {
-    width: 95%;
-    border-bottom: 1px solid rgb(240, 240, 240);
-    padding: 8px;
-  }
-
   .content-item-box {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+    width: 95%;
   }
 
   .content-text {

@@ -1,6 +1,12 @@
 {
   "pages": [
     {
+      "path": "pages/work/student/apply",
+      "style": {
+        "navigationBarTitleText": "入党申请"
+      }
+    },
+    {
       "path": "pages/login/login",
       "style": {
         "navigationBarTitleText": "登录"
@@ -29,12 +35,6 @@
       "path": "pages/index/content/content",
       "style": {
         "navigationBarTitleText": "详情"
-      }
-    },
-    {
-      "path": "pages/work/student/apply",
-      "style": {
-        "navigationBarTitleText": "入党申请"
       }
     },
     {
