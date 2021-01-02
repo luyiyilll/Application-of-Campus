@@ -1,7 +1,7 @@
 import { request } from './index';
 
 /*获取学院*/
-export function getAcademic() {
+export function getAcademic () {
   return request({
     url: '/academic/all',
     method: 'get'
@@ -9,7 +9,7 @@ export function getAcademic() {
 }
 
 /*获取专业*/
-export function getMajor(data) {
+export function getMajor (data) {
   return request({
     url: '/academic/major',
     method: 'post',
@@ -18,7 +18,7 @@ export function getMajor(data) {
 }
 
 /*获取支部*/
-export function getDepartment(data) {
+export function getDepartment (data) {
   return request({
     url: '/academic/depart',
     method: 'get',

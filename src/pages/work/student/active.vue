@@ -3,7 +3,8 @@
     <view class="info-title ">团员推优及民主评议材料</view>
     <view class="cu-form-group">
       <view class="grid margin-top-sm col-4 grid-square flex-sub">
-        <view class="bg-img" v-for="(item,index) in excellent_pic" :key="index" @tap="ViewImage" :data-url="excellent_pic[index]">
+        <view class="bg-img" v-for="(item,index) in excellent_pic" :key="index" @tap="ViewImage"
+          :data-url="excellent_pic[index]">
           <image :src="excellent_pic[index]" mode="aspectFill"></image>
           <view class="cu-tag bg-red" @tap.stop="DelImg" :data-index="index">
             <text class='cuIcon-close'></text>
@@ -62,7 +63,7 @@
         })
       },
       /*提交信息*/
-      submitBtn(){
+      submitBtn() {
 
       }
     },
