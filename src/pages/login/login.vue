@@ -27,22 +27,17 @@
           if (res.errMsg == 'login:ok') {
             let code = res.code
             getOpenid({ code }).then(response => {
-              if(response.data.openid){
+              if (response.data.openid) {
                 uni.setStorageSync('openid', response.data.openid)
               }
-              if(response.data.info.length!=0){
+              if (response.data.info.length != 0) {
                 uni.setStorageSync('openid', response.data.info.openid)
                 uni.setStorageSync('userInfo', response.data.info)
                 uni.redirectTo({
                   url: '/pages/index/index',
                 });
               }
-      
               that.getSetting();
-            }).catch(e=>{
-              uni.showLoading({
-                title: '登录失败'
-              })
             })
           } else {
             uni.showLoading({
@@ -81,7 +76,7 @@
               gender: infoRes.userInfo.gender == 1 ? '男' : '女',
               avatarurl: infoRes.userInfo.avatarUrl,
             }
-            
+
             uni.setStorageSync('userInfo', data)
             addUser(data).then(res => {
               uni.showLoading({
@@ -104,9 +99,11 @@
     display: flex;
     flex-direction: column;
   }
-  .top-box{
+
+  .top-box {
     min-height: 30vh;
   }
+
   .img-box {
     justify-content: center;
   }
@@ -131,7 +128,7 @@
 
   .button-box,
   .content-box {
-    margin-top:20px;
+    margin-top: 20px;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -144,9 +141,9 @@
   .margin-tb-lg {
     margin-bottom: 10px;
   }
-.bg-green {
-    background-color:  rgb(197, 132, 126);
+
+  .bg-green {
+    background-color: rgb(197, 132, 126);
     color: #ffffff;
-}
-  
+  }
 </style>

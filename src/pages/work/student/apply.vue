@@ -1,5 +1,5 @@
 <template>
-  <view class="border-top" v-if="user.is_apply==0">
+  <view class="border-top" v-if="!!user.is_apply || user.is_apply==0">
     <view class="info-title padding">填写基本信息</view>
     <view class="cu-form-group ">
       <view class="title">姓名</view>
@@ -262,10 +262,10 @@
       this.getAllAcademic()
     },
     onLoad() {
-      this.user = uni.getStorageSync('userInfo')
-      console.log(this.user)
-      this.getAllGrade()
-      this.getAllAcademic()
+      // this.user = uni.getStorageSync('userInfo')
+      // console.log(this.user)
+      // this.getAllGrade()
+      // this.getAllAcademic()
     },
     methods: {
       getAllGrade() {
@@ -458,12 +458,26 @@
         petition_pic.forEach((item, index) => {
           console.log(item)
           uni.uploadFile({
-            url: 'http://localhost:3000/user/petition',
+            url: 'http://localhost:3000/user/petitionpic',
             filePath: item,
             name: 'file',
             header: {
-              "Content-Type": "multipart/form-data",
-              "Authori-zation": uni.getStorageSync("openid")
+              "Authori-zation": uni.getStorageSync("openid"),
+            },
+            success: function (res) {
+              console.log(res)
+            }
+          })
+        })
+
+        family_pic.forEach((item, index) => {
+          console.log(item)
+          uni.uploadFile({
+            url: 'http://localhost:3000/user/familypic',
+            filePath: item,
+            name: 'file',
+            header: {
+              "Authori-zation": uni.getStorageSync("openid"),
             },
             success: function (res) {
               console.log(res)
