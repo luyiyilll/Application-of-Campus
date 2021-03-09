@@ -1,5 +1,5 @@
 <template>
-  <view class="border-top" v-if="!!user.is_apply || user.is_apply==0">
+  <view class="border-top" v-if="user.is_apply==0 && status>=0">
     <view class="info-title padding">填写基本信息</view>
     <view class="cu-form-group ">
       <view class="title">姓名</view>
@@ -134,7 +134,7 @@
       <button class="cu-btn shadow-blur lg" @click="submitBtn">提交</button>
     </view>
   </view>
-  <!--没有提交信息-->
+  <!--已经提交信息-->
   <view v-else>
     <view class="form">
       <view class="cu-form-group margin-top-sm">
@@ -178,9 +178,9 @@
       <view class="info-title ">入党申请书材料</view>
       <view class="cu-form-group">
         <view class="grid margin-top-sm col-4 grid-square flex-sub">
-          <view class="bg-img" v-for="(item,index) in info.petition_pic" :key="index" @tap="ViewImage(0,$event)"
-            :data-url="info.petition_pic[index]">
-            <image :src="info.petition_pic[index]" mode="aspectFill"></image>
+          <view class="bg-img" v-for="(item,index) in user.petition_pic" :key="index" @tap="ViewImage(0,$event)"
+            :data-url="user.petition_pic[index]">
+            <image :src="picHost+user.petition_pic[index]" mode="aspectFill"></image>
           </view>
         </view>
       </view>
@@ -188,9 +188,9 @@
       <view class="info-title ">家庭成员及主要社会关系</view>
       <view class="cu-form-group">
         <view class="grid margin-top-sm col-4 grid-square flex-sub">
-          <view class="bg-img" v-for="(item,index) in info.family_pic" :key="index" @tap="ViewImage(1,$event)"
-            :data-url="info.family_pic[index]">
-            <image :src="info.family_pic[index]" mode="aspectFill"></image>
+          <view class="bg-img" v-for="(item,index) in user.family_pic" :key="index" @tap="ViewImage(1,$event)"
+            :data-url="user.family_pic[index]">
+            <image :src="picHost+user.family_pic[index]" mode="aspectFill"></image>
           </view>
         </view>
       </view>
@@ -198,19 +198,18 @@
       <view class="info-title ">个人履历材料</view>
       <view class="cu-form-group">
         <view class="grid margin-top-sm col-4 grid-square flex-sub">
-          <view class="bg-img" v-for="(item,index) in info.resume_pic" :key="index" @tap="ViewImage(2,$event)"
-            :data-url="info.resume_pic[index]">
-            <image :src="info.resume_pic[index]" mode="aspectFill"></image>
+          <view class="bg-img" v-for="(item,index) in user.resume_pic" :key="index" @tap="ViewImage(2,$event)"
+            :data-url="user.resume_pic[index]">
+            <image :src="picHost+user.resume_pic[index]" mode="aspectFill"></image>
           </view>
         </view>
       </view>
-
       <view class="info-title ">个人自传材料</view>
       <view class="cu-form-group">
         <view class="grid margin-top-sm col-4 grid-square flex-sub">
-          <view class="bg-img" v-for="(item,index) in info.statement_pic" :key="index" @tap="ViewImage(3,$event)"
-            :data-url="info.statement_pic[index]">
-            <image :src="info.statement_pic[index]" mode="aspectFill"></image>
+          <view class="bg-img" v-for="(item,index) in user.statement_pic" :key="index" @tap="ViewImage(3,$event)"
+            :data-url="user.statement_pic[index]">
+            <image :src="picHost+user.statement_pic[index]" mode="aspectFill"></image>
           </view>
         </view>
       </view>
@@ -218,12 +217,16 @@
   </view>
 </template>
 <script>
-  import { getGrade, info, findUserByOid } from '../../../network/student/user'
+  import { getIdentity } from "../../../utils/constant.js"
+  import { getGrade, info, findUserByOid } from '../../../network/user'
   import { getAcademic, getMajor, getDepartment } from "../../../network/academic"
+  import { picHost } from "../../../utils/config.js"
   export default {
     data() {
       return {
+        picHost,
         user: {},
+        status: '',
         info: {
           realname: '',
           gender: 'female',
@@ -256,28 +259,24 @@
       }
     },
     onShow() {
-      this.user = uni.getStorageSync('userInfo')
-      console.log(this.user)
-      this.getAllGrade()
-      this.getAllAcademic()
+      // this.user = uni.getStorageSync('userInfo')
     },
     onLoad() {
-      // this.user = uni.getStorageSync('userInfo')
-      // console.log(this.user)
-      // this.getAllGrade()
-      // this.getAllAcademic()
+      this.user = uni.getStorageSync('userInfo');
+      this.status = this.user.identity ? (getIdentity(this.user.identity)) : 0;
+      console.log(this.user)
+      this.getAllGrade();
+      this.getAllAcademic();
     },
     methods: {
       getAllGrade() {
         getGrade().then(res => {
-          let { data } = res.data;
-          this.gradeList = data
+          this.gradeList = res.data.data
         })
       },
       getAllAcademic() {
         getAcademic().then(res => {
-          let { academic } = res.data;
-          this.academicList = academic
+          this.academicList = res.data.data
         })
       },
       DateChange(e) {
@@ -302,12 +301,12 @@
         this.indexa = e.detail.value;
         this.info.academic = this.academicList[this.indexa];
         getMajor({ academic: this.info.academic }).then(res => {
-          this.majorList = res.data.major
+          this.majorList = res.data.data
         }).catch(e => {
           this.info.academic = ''
         })
         getDepartment({ academic: this.info.academic }).then(res => {
-          this.departmentList = res.data.depart
+          this.departmentList = res.data.data
         })
       },
       majorListChange(e) {
@@ -358,8 +357,6 @@
           sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
           sourceType: ['album'], //从相册选择
           success: (res) => {
-            console.log("-----000", res);
-            this.aaa = res.tempFiles;
             if (index == 0) {
               if (this.info.petition_pic.length != 0) {
                 this.info.petition_pic = this.info.petition_pic.concat(res.tempFilePaths)
@@ -438,6 +435,7 @@
 
       /*提交信息*/
       submitBtn() {
+        let that = this;
         let realname = this.info.realname;
         let gender = (this.info.gender == 'female' ? '女' : '男')
         let birthday = this.info.date;
@@ -452,62 +450,82 @@
         let resume_pic = this.info.resume_pic;
         let statement_pic = this.info.statement_pic;
 
-        // if (realname && gender && birthday && IDcode && tel && grade && academic && major && department && petition_pic.length != 0 && family_pic.length != 0 && resume_pic.length != 0 && statement_pic.length != 0) {
-        console.log(petition_pic);
+        if (realname && gender && birthday && IDcode && tel && grade && academic && major && department && petition_pic.length != 0 && family_pic.length != 0 && resume_pic.length != 0 && statement_pic.length != 0) {
 
-        petition_pic.forEach((item, index) => {
-          console.log(item)
-          uni.uploadFile({
-            url: 'http://localhost:3000/user/petitionpic',
-            filePath: item,
-            name: 'file',
-            header: {
-              "Authori-zation": uni.getStorageSync("openid"),
-            },
-            success: function (res) {
-              console.log(res)
-            }
-          })
-        })
-
-        family_pic.forEach((item, index) => {
-          console.log(item)
-          uni.uploadFile({
-            url: 'http://localhost:3000/user/familypic',
-            filePath: item,
-            name: 'file',
-            header: {
-              "Authori-zation": uni.getStorageSync("openid"),
-            },
-            success: function (res) {
-              console.log(res)
-            }
-          })
-        })
-
-        let user = {
-          openid: uni.getStorageSync('openid'),
-          realname, gender, birthday, IDcode, tel, grade, academic, major, department
-        }
-        info({ user }).then(res => {
-          findUserByOid({ openid: uni.getStorageSync('openid') }).then(r => {
-            uni.setStorageSync('userInfo', r.data.user)
-            uni.showToast({
-              title: '已提交',
-              duration: 2000,
-              success: function () {
-
-              }
+          petition_pic.forEach((item, index) => {
+            console.log(item)
+            uni.uploadFile({
+              url: 'http://localhost:3000/user/petitionpic',
+              filePath: item,
+              name: 'file',
+              header: {
+                "Authori-zation": uni.getStorageSync("openid"),
+              },
             })
           })
-        })
-        // } else {
-        //   uni.showToast({
-        //     title: '信息填写不完整！!',
-        //     icon: 'none',
-        //     duration: 2000
-        //   })
-        // }
+
+          family_pic.forEach((item, index) => {
+            console.log(item)
+            uni.uploadFile({
+              url: 'http://localhost:3000/user/familypic',
+              filePath: item,
+              name: 'file',
+              header: {
+                "Authori-zation": uni.getStorageSync("openid"),
+              },
+            })
+          })
+
+          resume_pic.forEach((item, index) => {
+            console.log(item)
+            uni.uploadFile({
+              url: 'http://localhost:3000/user/resumepic',
+              filePath: item,
+              name: 'file',
+              header: {
+                "Authori-zation": uni.getStorageSync("openid"),
+              },
+            })
+          })
+
+          statement_pic.forEach((item, index) => {
+            console.log(item)
+            uni.uploadFile({
+              url: 'http://localhost:3000/user/statementpic',
+              filePath: item,
+              name: 'file',
+              header: {
+                "Authori-zation": uni.getStorageSync("openid"),
+              },
+            })
+          })
+
+          let user = {
+            openid: uni.getStorageSync('openid'),
+            realname, gender, birthday, IDcode, tel, grade, academic, major, department
+          }
+          uni.showToast({
+            title: '已提交',
+            duration: 2000,
+            success: function () {
+              info({ user }).then(async res => {
+                await findUserByOid({ openid: uni.getStorageSync('openid') }).then(r => {
+                  let result = r.data.user;
+                  uni.setStorageSync('userInfo', result)
+                  that.user = result
+                  console.log("0------", uni.getStorageSync('userInfo'))
+                })
+              })
+            }
+          })
+
+        } else {
+          uni.showToast({
+            title: '信息填写不完整！!',
+            icon: 'none',
+            duration: 2000
+          })
+        }
       }
     },
   }

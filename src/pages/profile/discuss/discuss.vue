@@ -20,17 +20,47 @@
         <view class="right">
           <view class="like-margin text-red" @click="like(item.id)" :data-cur="index"> <span class="text-sm"
               :class="item.islike==1?'cuIcon-likefill':'cuIcon-like'"></span></view>
-          <!-- <view><span class="text-sm cuIcon-comment text-green"></span></view> -->
+          <view @click="toComment(item.id)"><span class="text-sm cuIcon-comment text-green"></span></view>
         </view>
       </view>
-      <view class="uni-form-item uni-column">
-        <input class="uni-input" @focus="getKeyBoard" placeholder="评论" />
+
+      <!-- <view class="cu-bar uni-form-item input">
+
+        <input class="solid-bottom" :adjust-position="false" :focus="false" maxlength="300" cursor-spacing="10"
+          @focus="getKeyBoard" @blur="InputBlur" placeholder="评论"></input>
+        <view class="action">
+          <text class="cuIcon-emojifill text-grey"></text>
+        </view>
+        <text>评论</text>
+      </view> -->
+      <!-- <view class="uni-form-item uni-column">
+        <input class="uni-input" @focus="getKeyBoard" />
+      </view> -->
+    </view>
+
+    <view class="cu-modal" :class="isShow==true?'show':''">
+      <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+          <view class="content">请输入评论内容</view>
+          <view class="action" @tap="cancelComment">
+            <text class="cuIcon-close text-red"></text>
+          </view>
+        </view>
+        <view class="padding-xl">
+          <textarea maxlength="-1" class="text-left" v-model="comment" placeholder="请输入讨论内容..."></textarea>
+        </view>
+        <view class="cu-bar bg-white">
+          <view class="action margin-0 flex-sub  solid-left" @tap="cancelComment">取消</view>
+          <view class="action margin-0 flex-sub text-green  solid-left" @tap="confirmComment()">确定</view>
+        </view>
       </view>
     </view>
   </view>
 </template>
 <script>
+  import { getFromatTime } from '../../../utils/constant'
   import { discussInfo, discussAllInfo } from '../../../network/discuss';
+  import { addComment } from '../../../network/comment'
   import { likeAction } from '../../../network/like'
   export default {
     data() {
@@ -40,12 +70,13 @@
         flag: false,
         curIndex: 0,
         disList: [],
-        comment: ''
+        comment: '',
+        commentId: 0,
+        isShow: false
       }
     },
     onLoad(e) {
       this.type = e.type
-      console.log(this.type)
       this.user = uni.getStorageSync('userInfo')
       this.getDiscussInfo();
     },
@@ -61,17 +92,62 @@
         })
       },
       getDiscussInfo() {
-        console.log(111)
-        console.log(this.type)
         if (this.type == 0) {
-          console.log(222)
           discussInfo({ openid: uni.getStorageSync('openid') }).then(res => {
-            this.disList = res.data.data
+            let r = []
+            res.data.data.forEach(item => {
+              let o = {
+                avatar: item.avatar,
+                nick_name: item.nick_name,
+                id: item.id,
+                title: item.title,
+                content: item.content,
+                views: item.num,
+                postdate: getFromatTime(item.postdate),
+                islike: item.islike
+              }
+              r.push(o)
+            })
+            this.disList = r
           })
         } else {
-          console.log(333)
           discussAllInfo().then(res => {
-            this.disList = res.data.data
+            let n = res.data.data;
+            let r = [];
+            discussInfo({ openid: uni.getStorageSync('openid') }).then(response => {
+              let m = response.data.data
+              n.forEach(item => {
+                let o;
+                for (let i = 0; i < m.length; i++) {
+                  if (item.id == m[i].id) {
+                    o = {
+                      avatar: item.avatar,
+                      nick_name: item.nick_name,
+                      id: item.id,
+                      title: item.title,
+                      content: item.content,
+                      views: item.views,
+                      postdate: getFromatTime(item.postdate),
+                      islike: m[i].islike
+                    }
+                    break;
+                  } else {
+                    o = {
+                      avatar: item.avatar,
+                      nick_name: item.nick_name,
+                      id: item.id,
+                      title: item.title,
+                      content: item.content,
+                      views: item.views,
+                      postdate: getFromatTime(item.postdate),
+                      islike: 0
+                    }
+                  }
+                }
+                r.push(o)
+              })
+            })
+            this.disList = r
           })
         }
 
@@ -81,12 +157,29 @@
           id,
           openid: uni.getStorageSync('openid')
         }
-        console.log(o)
         likeAction(o).then(async res => {
-          console.log(res)
           await this.getDiscussInfo();
         })
+      },
+      toComment(id) {
+        this.commentId = id
+        this.isShow = true;
+      },
+      cancelComment() {
+        this.isShow = false;
+      },
+      confirmComment() {
+        let o = {
+          openid: this.user.openid,
+          id: this.commentId,
+          type: this.type,
+          content: this.comment
+        }
+        addComment(o).then(res => {
+        })
+        this.isShow = false;
       }
+
     }
   }
 </script>

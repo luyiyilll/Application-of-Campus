@@ -1,8 +1,7 @@
 <template>
   <view>
     <!-- style="background:url('../../static/bg.jpg'); background-size: 100% 100%;" -->
-    <view class="banner" style="background:url('../../static/profile_banner.png'); background-size: 100% 100%;"
-      @click="toUserInfo">
+    <view class="banner" style="background:url('../../static/profile_banner.png'); background-size: 100% 100%;">
       <view class="margin-top">
         <img :src="user.avatar" alt="" class="head-img">
       </view>
@@ -49,16 +48,16 @@
     data() {
       return {
         navList: [
+          { title: '我的信息', icon: '../../static/info.png' },
           { title: '我的申请', icon: '../../static/apply.png' },
-          { title: '我的讨论', icon: '../../static/article.png' },
-          { title: '我的收藏', icon: '../../static/colection.png' },
-          { title: '最近浏览', icon: '../../static/records.png' },
+          { title: '我的讨论', icon: '../../static/discuss.png' },
+          { title: '我的收藏', icon: '../../static/collect.png' },
         ],
         navListB: [
-          { title: '讨论广场', icon: '../../static/discuss_playground.png' },
+          { title: '讨论广场', icon: '../../static/discuss_g.png' },
           { title: '最近浏览', icon: '../../static/records.png' },
-          { title: '基本信息', icon: '../../static/article.png' },
-          { title: '最近浏览', icon: '../../static/records.png' },
+          { title: '签到', icon: '../../static/signin.png' },
+          { title: '最近浏览', icon: '../../static/collection.png' },
         ],
         user: {}
       };
@@ -78,34 +77,31 @@
       navigateTo(index) {
         if (index == 0) {
           uni.navigateTo({
+            url: '/pages/profile/info/info'
+          });
+        } else if (index == 1) {
+          uni.navigateTo({
             url: '/pages/profile/myapply/myapply'
           });
-
-        } else if (index == 1) {
+        } else if (index == 2) {
           uni.navigateTo({
             url: '/pages/profile/discuss/discuss?type=0'
           });
-
-        } else if (index == 2) {
+        } else {
           uni.navigateTo({
             url: '/pages/profile/collection/collection'
           });
-        } else {
-          uni.navigateTo({
-            url: '/pages/profile/records/records'
-          });
         }
-      },
-      toUserInfo() {
-        uni.navigateTo({
-          url: '/pages/profile/info/info'
-        });
       },
       navigateToB(index) {
         if (index == 0) {
           uni.navigateTo({
             url: '/pages/profile/discuss/discuss?type=1'
           })
+        } else if (index == 1) {
+          uni.navigateTo({
+            url: '/pages/profile/records/records'
+          });
         }
       }
     },
@@ -152,8 +148,8 @@
   }
 
   .nav-icon {
-    width: 25px;
-    height: 25px;
+    width: 28px;
+    height: 28px;
   }
 
   .divider {

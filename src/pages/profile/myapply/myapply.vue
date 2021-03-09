@@ -4,24 +4,26 @@
       <view class="cu-time">{{item.date}}</view>
       <view class="cu-item" :class="[applyList.length-1 == index ? 'text-green' : '']">
         <view class="content bg-gray" :class="[index%2==0?'':'bg']">
-          <text>{{item.time}}</text>{{index%2}} 【{{item.title}}】 {{item.status}}
+          <text class="time-font">{{item.time}}</text> <text class="time-weight">【{{item.title}}】</text> {{item.status}}
         </view>
       </view>
     </view>
   </view>
 </template>
 <script>
+  import { getMyApplication } from '../../../network/user'
   export default {
     data() {
       return {
-        applyList: [
-          { date: '2020-06-17', time: '10:30', title: '入党申请', status: '已提交', color: 'red' },
-          { date: '2020-06-17', time: '16:00', title: '入党申请', status: '审核通过', color: 'red' },
-          { date: '2020-09-17', time: '16:00', title: '积极分子申请', status: '已提交', color: 'red' },
-          { date: '2020-09-18', time: '16:00', title: '积极分子申请', status: '审核通过', color: 'red' }
-        ]
+        applyList: []
       }
     },
+    onLoad() {
+      getMyApplication({ openid: uni.getStorageSync('openid') }).then(res => {
+        console.log(res.data.data)
+        this.applyList = res.data.data
+      })
+    }
   }
 </script>
 <style scoped>
@@ -35,5 +37,13 @@
 
   .text-green {
     color: rgba(197, 132, 126, .8);
+  }
+
+  .time-font {
+    font-size: 12px;
+  }
+
+  .time-weight {
+    font-weight: bold;
   }
 </style>

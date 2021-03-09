@@ -2,16 +2,16 @@
   <view class="container border-top">
     <view class="title margin-bottom">{{content.title}}</view>
     <view class="text-gray time">
-      {{content.publishtime}}
+      {{content.postdate}}
     </view>
     <view class="margin-top">
-      <rich-text :nodes="content.description"></rich-text>
+      <rich-text :nodes="content.desc"></rich-text>
     </view>
     <view class="icon-box margin-top">
       <view class="icon">
         <view class="collects" @click="toCollect">
           <span class="icon-item text-red" :class="isActive?'cuIcon-favorfill text-red':'cuIcon-favor'"></span>
-          <span class="text-gray text-sm">{{content.collect}}</span>
+          <span class="text-gray text-sm">{{content.collects}}</span>
         </view>
         <view class="likes">
           <span class="icon-item text-green cuIcon-attention"></span>
@@ -23,35 +23,79 @@
   </view>
 </template>
 <script>
-import  {getContentById} from '../../../network/notice'
+  import { getFromatTime } from '../../../utils/constant'
+  import { getContById } from '../../../network/notice'
+  import { addView } from '../../../network/view'
+  import { addCollect, deleteCollect, isCollect } from '../../../network/collect'
   export default {
     data() {
       return {
-        content: {
-          title: '第一次会议',
-          publishtime: '2020-10-2',
-          description: '<p>在10501展开第一次会议，具体内容为入体内容为体内容为体内容为体内容为体内容为体内容为体内容为体内容为v党申请的通知...</p>',
-          views: 26,
-          collect: 20,
-          likes: 2
-        },
+        id: '',
+        content: {},
         isActive: false
       }
     },
     onLoad(e) {
-      console.log(e)
-      let id = e.id;
-      let type = e.type;
-      this.getContent(id)
+      this.id = e.id;
+      this.type = e.type;
+      this.getContent(this.id)
+      this.getIsCollect(this.id, uni.getStorageSync('userInfo').openid)
+      this.addViews(this.id)
     },
     methods: {
       toCollect() {
-        console.log(this.isActive)
-        this.isActive = !this.isActive
+        let o = {
+          id: this.id,
+          openid: uni.getStorageSync('userInfo').openid
+        }
+        let like = !this.isActive
+        if (like) {
+          this.addCollection(o)
+        } else {
+          this.deleteCollection(o)
+        }
       },
-      getContent(id){
-        getContentById({id}).then(res=>{
-console.log(res)
+      getContent(id) {
+        getContById({ id }).then(res => {
+          this.content = res.data.data
+          this.content.postdate = getFromatTime(res.data.data.postdate)
+        }).catch(e => {
+          console.log(e)
+        })
+      },
+      getIsCollect(id, openid) {
+        let o = {
+          id,
+          openid
+        }
+        isCollect(o).then(res => {
+          if (res.data.code == 1) {
+            this.isActive = true
+          } else if (res.data.code == -1) {
+            this.isActive = false
+          }
+        })
+      },
+      addViews(id) {
+        let o = {
+          id,
+          openid: uni.getStorageSync('userInfo').openid,
+          type: 0
+        }
+        addView(o).then(res => {
+          console.log('浏览成功')
+        })
+      },
+      addCollection(o) {
+        addCollect(o).then(res => {
+          this.isActive = !this.isActive
+          this.content.collects = this.content.collects + 1
+        })
+      },
+      deleteCollection(o) {
+        deleteCollect(o).then(res => {
+          this.content.collects = this.content.collects - 1
+          this.isActive = !this.isActive
         })
       }
     },

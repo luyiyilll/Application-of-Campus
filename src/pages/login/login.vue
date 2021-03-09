@@ -12,7 +12,7 @@
 </template>
 <script>
   import { login, getOpenid } from '../../network/login'
-  import { addUser } from '../../network/student/user'
+  import { addUser } from '../../network/user'
   export default {
     data() {
       return {

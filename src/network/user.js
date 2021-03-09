@@ -1,4 +1,4 @@
-import { request } from '../index';
+import { request } from './index';
 
 /*注册用户*/
 export function addUser (data) {
@@ -30,6 +30,15 @@ export function getGrade () {
 export function info (data) {
   return request({
     url: '/user/info',
+    method: 'post',
+    data: data
+  })
+}
+
+/*获取用户的申请*/
+export function getMyApplication (data) {
+  return request({
+    url: '/user/application',
     method: 'post',
     data: data
   })

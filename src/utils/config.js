@@ -1,3 +1,3 @@
 module.exports = {
-  baseUrl: "http://localhost:3000/"
+  picHost: 'http://localhost:3000/',
 }

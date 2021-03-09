@@ -49,8 +49,8 @@
           </view>
         </view>
         <view class="cu-bar bg-white">
-          <view class="action margin-0 flex-sub text-green solid-left" @tap="cancel">取消</view>
-          <view class="action margin-0 flex-sub  solid-left" @tap="confirm">确定</view>
+          <view class="action margin-0 flex-sub  solid-left" @tap="cancel">取消</view>
+          <view class="action margin-0 flex-sub text-green solid-left" @tap="confirm">确定</view>
         </view>
       </view>
     </view>
@@ -63,7 +63,7 @@
 <script>
   import { mapState, mapMutations } from 'vuex'
   import { getOpenid } from '../network/login';
-  import {addDiscuss} from '../network/discuss'
+  import { addDiscuss } from '../network/discuss'
   export default {
     name: "TabBar",
     data() {
@@ -97,24 +97,24 @@
         this.modal = false;
       },
       confirm() {
-        let date=new Date()
-        let article={
-          title:this.discuss.title,
-          content:this.discuss.content,
-          postdate:date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate(),
-          publisher:uni.getStorageSync('openid')
+        let date = new Date()
+        let article = {
+          title: this.discuss.title,
+          content: this.discuss.content,
+          postdate: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(),
+          publisher: uni.getStorageSync('openid')
         }
 
-        addDiscuss(article).then(res=>{
+        addDiscuss(article).then(res => {
           this.modal = false;
           uni.showToast({
-            title:'发表成功',
-            icon:'none'
+            title: '发表成功',
+            icon: 'none'
           })
-        }).catch(e=>{
+        }).catch(e => {
           uni.showToast({
-            title:'发表失败',
-            icon:'none'
+            title: '发表失败',
+            icon: 'none'
           })
         })
         // this.discuss.title = "";
